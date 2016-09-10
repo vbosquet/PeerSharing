@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Sign In View Controller-->
+        <!--Auth View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SignInViewController" customModule="PeerSharing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="AuthViewController" customModule="PeerSharing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -35,6 +35,7 @@
                                 <state key="normal" title="Sign In"/>
                                 <connections>
                                     <action selector="signIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l67-WG-ZeN"/>
+                                    <segue destination="FnH-Ob-6OI" kind="presentation" identifier="DisplayDashboard" id="ch6-gA-kRE"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lRs-iK-PZR">
@@ -183,11 +184,15 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Profil registration" id="lkh-ZC-pze">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5o8-em-tyS"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5o8-em-tyS">
+                            <connections>
+                                <action selector="cancelRegistration:" destination="nLF-jH-Zbq" id="yrk-zf-XeP"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="wQC-A6-pLg">
                             <connections>
-                                <action selector="saveProfilInfos:" destination="nLF-jH-Zbq" id="POj-YK-hlB"/>
-                                <segue destination="FnH-Ob-6OI" kind="presentation" identifier="DisplayDashboard" id="dz6-0E-zqF"/>
+                                <action selector="saveProfilInfos:" destination="nLF-jH-Zbq" id="TTw-Mx-Wvv"/>
+                                <segue destination="FnH-Ob-6OI" kind="presentation" id="Hht-gm-9vL"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -222,7 +227,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Dashboard" id="bkE-1R-gnl">
-                        <barButtonItem key="rightBarButtonItem" title="Sign Out" id="qHm-zT-zqB"/>
+                        <barButtonItem key="leftBarButtonItem" title="Sign Out" id="AXI-gc-BYa"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="qHm-zT-zqB"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3FU-LD-wfz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -266,4 +272,7 @@
             <point key="canvasLocation" x="2336" y="1286"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Hht-gm-9vL"/>
+    </inferredMetricsTieBreakers>
 </document>

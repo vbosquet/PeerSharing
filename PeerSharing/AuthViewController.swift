@@ -9,12 +9,12 @@
 import UIKit
 import Firebase
 
-class SignInViewController: UIViewController {
+class AuthViewController: UIViewController {
 
     @IBOutlet weak var emailAddressLabel: UITextField!
     @IBOutlet weak var passwordLabel: UITextField!
     
-    var logSucess = false
+    var segueShouldOccur = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,47 +30,50 @@ class SignInViewController: UIViewController {
     @IBAction func createAccount(sender: AnyObject) {
         FIRAuth.auth()?.createUserWithEmail(emailAddressLabel.text!, password: passwordLabel.text!) { (user, error) in
             if error != nil {
-                self.login()
+                print("Incorrect")
+                self.segueShouldOccur = false
                 
             } else {
                 print("User created")
-                self.login()
             }
         }
     }
     
     
     @IBAction func signIn(sender: AnyObject) {
-        login()
-        
-    }
-    
-    func login() {
         FIRAuth.auth()?.signInWithEmail(emailAddressLabel.text!, password: passwordLabel.text!) { (user, error) in
             if error != nil {
                 print("Incorrect")
+                self.segueShouldOccur = false
                 
             } else {
                 print("Correct")
-                self.logSucess = true
             }
         }
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if logSucess {
-            logSucess = false
-            return true
-        } else {
-            return false
+        
+        if identifier == "AddProfil" {
+            if !segueShouldOccur {
+                print("Segue won't occur")
+                segueShouldOccur = true
+                return false
+            } else {
+                print("Segue will occur")
+            }
+        } else if identifier == "DisplayDashboard" {
+            if !segueShouldOccur {
+                print("Segue won't occur")
+                segueShouldOccur = true
+                return false
+            } else {
+                print("Segue will occur")
+            }
         }
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "AddProfil" {
-            let navivationController = segue.destinationViewController as! UINavigationController
-            _ = navivationController.topViewController as! ProfilRegistrationTableViewController
-        }
+        
+        return true
+        
     }
 }
 

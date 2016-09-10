@@ -7,10 +7,9 @@
 //
 
 import UIKit
+import Firebase
 
 class ProfilRegistrationTableViewController: UITableViewController {
-    
-    
     
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -20,19 +19,22 @@ class ProfilRegistrationTableViewController: UITableViewController {
     
     var userInfo = UserInfo()
     
-    
-    
     @IBAction func saveProfilInfos(sender: AnyObject) {
-        /*userInfo.firstName = firstNameTextField.text!
-        userInfo.lastName = lastNameTextField.text!
-        userInfo.address = addressTextField.text!
-        userInfo.postalCode = postalCodeTextField.text!
-        userInfo.city = cityTextField.text!*/
-        
         print("Infos saved")
     
     }
     
+    @IBAction func cancelRegistration(sender: AnyObject) {
+        let user = FIRAuth.auth()?.currentUser
+        
+        user?.deleteWithCompletion { error in
+            if let error = error {
+                print("Impossible to delete this user because of error: \(error)")
+            } else {
+                print("User deleted")
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,18 +43,12 @@ class ProfilRegistrationTableViewController: UITableViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "DisplayDashboard" {
-            let navivationController = segue.destinationViewController as! UINavigationController
-            _ = navivationController.topViewController as! DashboardViewController
-        }
+        
     }
     
 }
