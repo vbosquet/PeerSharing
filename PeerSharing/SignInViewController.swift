@@ -9,11 +9,12 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController {
+class SignInViewController: UIViewController {
 
     @IBOutlet weak var emailAddressLabel: UITextField!
     @IBOutlet weak var passwordLabel: UITextField!
     
+    var logSucess = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,12 @@ class ViewController: UIViewController {
         }
     }
     
+    
+    @IBAction func signIn(sender: AnyObject) {
+        login()
+        
+    }
+    
     func login() {
         FIRAuth.auth()?.signInWithEmail(emailAddressLabel.text!, password: passwordLabel.text!) { (user, error) in
             if error != nil {
@@ -45,7 +52,24 @@ class ViewController: UIViewController {
                 
             } else {
                 print("Correct")
+                self.logSucess = true
             }
+        }
+    }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if logSucess {
+            logSucess = false
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "AddProfil" {
+            let navivationController = segue.destinationViewController as! UINavigationController
+            _ = navivationController.topViewController as! ProfilRegistrationTableViewController
         }
     }
 }
