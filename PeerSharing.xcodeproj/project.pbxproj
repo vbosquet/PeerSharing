@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5511D7191D847A6100D313BF /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511D7181D847A6100D313BF /* UserInfo.swift */; };
+		5511D71B1D847CFF00D313BF /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511D71A1D847CFF00D313BF /* DashboardViewController.swift */; };
 		555B12D71D83226C00CB39F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B12D61D83226C00CB39F3 /* AppDelegate.swift */; };
 		555B12D91D83226C00CB39F3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B12D81D83226C00CB39F3 /* SignInViewController.swift */; };
 		555B12DC1D83226C00CB39F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555B12DA1D83226C00CB39F3 /* Main.storyboard */; };
@@ -19,6 +21,8 @@
 
 /* Begin PBXFileReference section */
 		334931E254F56DE742E8EC79 /* Pods-PeerSharing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeerSharing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PeerSharing/Pods-PeerSharing.debug.xcconfig"; sourceTree = "<group>"; };
+		5511D7181D847A6100D313BF /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		5511D71A1D847CFF00D313BF /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		555B12D31D83226C00CB39F3 /* PeerSharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PeerSharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		555B12D61D83226C00CB39F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		555B12D81D83226C00CB39F3 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 				555B12E21D83226C00CB39F3 /* Info.plist */,
 				555B12E81D8322BE00CB39F3 /* GoogleService-Info.plist */,
 				555DD1451D83FC6B00F829FB /* ProfilRegistrationTableViewController.swift */,
+				5511D7181D847A6100D313BF /* UserInfo.swift */,
+				5511D71A1D847CFF00D313BF /* DashboardViewController.swift */,
 			);
 			path = PeerSharing;
 			sourceTree = "<group>";
@@ -219,7 +225,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5511D7191D847A6100D313BF /* UserInfo.swift in Sources */,
 				555DD1461D83FC6B00F829FB /* ProfilRegistrationTableViewController.swift in Sources */,
+				5511D71B1D847CFF00D313BF /* DashboardViewController.swift in Sources */,
 				555B12D91D83226C00CB39F3 /* SignInViewController.swift in Sources */,
 				555B12D71D83226C00CB39F3 /* AppDelegate.swift in Sources */,
 			);

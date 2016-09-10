@@ -183,9 +183,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Profil registration" id="lkh-ZC-pze">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5o8-em-tyS"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="wQC-A6-pLg">
                             <connections>
                                 <action selector="saveProfilInfos:" destination="nLF-jH-Zbq" id="POj-YK-hlB"/>
+                                <segue destination="FnH-Ob-6OI" kind="presentation" identifier="DisplayDashboard" id="dz6-0E-zqF"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -200,6 +202,32 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GvC-UE-ahw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2336" y="490"/>
+        </scene>
+        <!--Dashboard-->
+        <scene sceneID="b00-Lh-2fy">
+            <objects>
+                <viewController id="a8R-3J-Dij" customClass="DashboardViewController" customModule="PeerSharing" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OH2-o8-xpN"/>
+                        <viewControllerLayoutGuide type="bottom" id="X9O-Rh-Fgr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qDr-ph-207">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gL4-lV-8qW">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Dashboard" id="bkE-1R-gnl">
+                        <barButtonItem key="rightBarButtonItem" title="Sign Out" id="qHm-zT-zqB"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3FU-LD-wfz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3148" y="1286"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9GI-I5-nMx">
@@ -218,6 +246,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OFo-FK-600" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1524" y="490"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cMn-5a-BOk">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FnH-Ob-6OI" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="smX-0v-TEs">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="a8R-3J-Dij" kind="relationship" relationship="rootViewController" id="Nfh-BC-Hqa"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qVz-p4-Cbg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2336" y="1286"/>
         </scene>
     </scenes>
 </document>

@@ -18,9 +18,19 @@ class ProfilRegistrationTableViewController: UITableViewController {
     @IBOutlet weak var postalCodeTextField: UITextField!
     @IBOutlet weak var cityTextField: UITextField!
     
+    var userInfo = UserInfo()
+    
     
     
     @IBAction func saveProfilInfos(sender: AnyObject) {
+        /*userInfo.firstName = firstNameTextField.text!
+        userInfo.lastName = lastNameTextField.text!
+        userInfo.address = addressTextField.text!
+        userInfo.postalCode = postalCodeTextField.text!
+        userInfo.city = cityTextField.text!*/
+        
+        print("Infos saved")
+    
     }
     
 
@@ -36,6 +46,13 @@ class ProfilRegistrationTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "DisplayDashboard" {
+            let navivationController = segue.destinationViewController as! UINavigationController
+            _ = navivationController.topViewController as! DashboardViewController
+        }
     }
     
 }
