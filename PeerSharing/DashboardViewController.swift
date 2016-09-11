@@ -8,8 +8,11 @@
 
 import UIKit
 import CoreLocation
+import Firebase
 
 class DashboardViewController: UIViewController {
+    
+    var newUser: User!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +23,23 @@ class DashboardViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
+            if let user = user {
+                self.newUser = User(user: user)
+            }
+        })
+    }
+    
+    @IBAction func signOutDidTouch(sender: AnyObject) {
+        try! FIRAuth.auth()?.signOut()
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    
     }
     
 

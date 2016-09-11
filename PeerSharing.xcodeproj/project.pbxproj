@@ -7,35 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5511D7191D847A6100D313BF /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511D7181D847A6100D313BF /* UserInfo.swift */; };
+		5511D7191D847A6100D313BF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511D7181D847A6100D313BF /* User.swift */; };
 		5511D71B1D847CFF00D313BF /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511D71A1D847CFF00D313BF /* DashboardViewController.swift */; };
 		555B12D71D83226C00CB39F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B12D61D83226C00CB39F3 /* AppDelegate.swift */; };
-		555B12D91D83226C00CB39F3 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B12D81D83226C00CB39F3 /* AuthViewController.swift */; };
+		555B12D91D83226C00CB39F3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B12D81D83226C00CB39F3 /* LoginViewController.swift */; };
 		555B12DC1D83226C00CB39F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555B12DA1D83226C00CB39F3 /* Main.storyboard */; };
 		555B12DE1D83226C00CB39F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 555B12DD1D83226C00CB39F3 /* Assets.xcassets */; };
 		555B12E11D83226C00CB39F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555B12DF1D83226C00CB39F3 /* LaunchScreen.storyboard */; };
 		555B12E91D8322BE00CB39F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 555B12E81D8322BE00CB39F3 /* GoogleService-Info.plist */; };
-		555DD1461D83FC6B00F829FB /* ProfilRegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555DD1451D83FC6B00F829FB /* ProfilRegistrationTableViewController.swift */; };
+		555DD1461D83FC6B00F829FB /* SignUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */; };
 		6ADD453FEBAF97D4B2998E03 /* Pods_PeerSharing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77500D1977B1CC512DDE1EB8 /* Pods_PeerSharing.framework */; };
 		8E29E2A81D849BFB00F6A449 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E29E2A71D849BFB00F6A449 /* MapKit.framework */; };
+		8EE319761D85EC8500BE5B35 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE319751D85EC8500BE5B35 /* Functions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		334931E254F56DE742E8EC79 /* Pods-PeerSharing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeerSharing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PeerSharing/Pods-PeerSharing.debug.xcconfig"; sourceTree = "<group>"; };
-		5511D7181D847A6100D313BF /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		5511D7181D847A6100D313BF /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5511D71A1D847CFF00D313BF /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		555B12D31D83226C00CB39F3 /* PeerSharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PeerSharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		555B12D61D83226C00CB39F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		555B12D81D83226C00CB39F3 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		555B12D81D83226C00CB39F3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		555B12DB1D83226C00CB39F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		555B12DD1D83226C00CB39F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		555B12E01D83226C00CB39F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		555B12E21D83226C00CB39F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		555B12E81D8322BE00CB39F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		555DD1431D83503400F829FB /* FirebaseAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuth.framework; path = Pods/FirebaseAuth/Frameworks/frameworks/FirebaseAuth.framework; sourceTree = "<group>"; };
-		555DD1451D83FC6B00F829FB /* ProfilRegistrationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilRegistrationTableViewController.swift; sourceTree = "<group>"; };
+		555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
 		77500D1977B1CC512DDE1EB8 /* Pods_PeerSharing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PeerSharing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E29E2A71D849BFB00F6A449 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		8EE319751D85EC8500BE5B35 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		ABB05B64249042E4CCEE1A07 /* Pods-PeerSharing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeerSharing.release.xcconfig"; path = "Pods/Target Support Files/Pods-PeerSharing/Pods-PeerSharing.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,15 +86,16 @@
 			isa = PBXGroup;
 			children = (
 				555B12D61D83226C00CB39F3 /* AppDelegate.swift */,
-				555B12D81D83226C00CB39F3 /* AuthViewController.swift */,
+				555B12D81D83226C00CB39F3 /* LoginViewController.swift */,
 				555B12DA1D83226C00CB39F3 /* Main.storyboard */,
 				555B12DD1D83226C00CB39F3 /* Assets.xcassets */,
 				555B12DF1D83226C00CB39F3 /* LaunchScreen.storyboard */,
 				555B12E21D83226C00CB39F3 /* Info.plist */,
 				555B12E81D8322BE00CB39F3 /* GoogleService-Info.plist */,
-				555DD1451D83FC6B00F829FB /* ProfilRegistrationTableViewController.swift */,
-				5511D7181D847A6100D313BF /* UserInfo.swift */,
+				555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */,
+				5511D7181D847A6100D313BF /* User.swift */,
 				5511D71A1D847CFF00D313BF /* DashboardViewController.swift */,
+				8EE319751D85EC8500BE5B35 /* Functions.swift */,
 			);
 			path = PeerSharing;
 			sourceTree = "<group>";
@@ -229,11 +232,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5511D7191D847A6100D313BF /* UserInfo.swift in Sources */,
-				555DD1461D83FC6B00F829FB /* ProfilRegistrationTableViewController.swift in Sources */,
+				5511D7191D847A6100D313BF /* User.swift in Sources */,
+				555DD1461D83FC6B00F829FB /* SignUpTableViewController.swift in Sources */,
 				5511D71B1D847CFF00D313BF /* DashboardViewController.swift in Sources */,
-				555B12D91D83226C00CB39F3 /* AuthViewController.swift in Sources */,
+				555B12D91D83226C00CB39F3 /* LoginViewController.swift in Sources */,
 				555B12D71D83226C00CB39F3 /* AppDelegate.swift in Sources */,
+				8EE319761D85EC8500BE5B35 /* Functions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
