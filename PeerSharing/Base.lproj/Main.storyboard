@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -26,18 +26,6 @@
                                     <rect key="frame" x="16" y="168" width="369" height="30"/>
                                 </variation>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fLl-pI-fT1">
-                                <rect key="frame" x="258" y="449" width="84" height="26"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="26" id="CPV-AC-hWy"/>
-                                    <constraint firstAttribute="width" constant="84" id="lPZ-JG-cfc"/>
-                                </constraints>
-                                <state key="normal" title="Sign Up"/>
-                                <connections>
-                                    <action selector="signUpDidTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9xz-Fu-yVd"/>
-                                    <segue destination="Tnq-fn-Q4w" kind="presentation" identifier="SignUpSegue" id="66a-7p-Bg7"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lRs-iK-PZR">
                                 <rect key="frame" x="20" y="230" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -58,7 +46,18 @@
                                 </variation>
                                 <connections>
                                     <action selector="loginDidTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="maz-2r-0GJ"/>
-                                    <segue destination="FnH-Ob-6OI" kind="presentation" identifier="LoginSegue" id="98v-JI-YDY"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fLl-pI-fT1">
+                                <rect key="frame" x="258" y="449" width="84" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="CPV-AC-hWy"/>
+                                    <constraint firstAttribute="width" constant="84" id="lPZ-JG-cfc"/>
+                                </constraints>
+                                <state key="normal" title="Sign Up"/>
+                                <connections>
+                                    <action selector="signUpDidTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9xz-Fu-yVd"/>
+                                    <segue destination="Tnq-fn-Q4w" kind="presentation" identifier="SignUpSegue" id="66a-7p-Bg7"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -79,6 +78,7 @@
                     <connections>
                         <outlet property="emailAddressTextField" destination="lRs-iK-PZR" id="did-MR-bgc"/>
                         <outlet property="passwordTextField" destination="IL2-SX-TDz" id="DHi-1A-Z2Q"/>
+                        <segue destination="FnH-Ob-6OI" kind="presentation" identifier="LoginSegue" id="366-tP-grG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -237,6 +237,7 @@
                         <outlet property="lastNameTextField" destination="2dy-jY-KfJ" id="yoU-hq-PkQ"/>
                         <outlet property="passwordTextField" destination="kTD-ss-Fev" id="92U-5w-jDl"/>
                         <outlet property="postalCodeTextField" destination="wmn-zo-XkJ" id="UNj-91-qhd"/>
+                        <segue destination="FnH-Ob-6OI" kind="presentation" identifier="SignInSegue" id="Phd-yo-lnJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GvC-UE-ahw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -255,24 +256,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gL4-lV-8qW">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vR7-nZ-jF1" customClass="GMSMapView">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                            </mapView>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="vR7-nZ-jF1" secondAttribute="trailing" id="DOB-M3-V3V"/>
+                            <constraint firstItem="X9O-Rh-Fgr" firstAttribute="top" secondItem="vR7-nZ-jF1" secondAttribute="bottom" id="DVG-aF-CeI"/>
+                            <constraint firstItem="vR7-nZ-jF1" firstAttribute="top" secondItem="OH2-o8-xpN" secondAttribute="bottom" id="GfT-n2-aRT"/>
+                            <constraint firstItem="vR7-nZ-jF1" firstAttribute="leading" secondItem="qDr-ph-207" secondAttribute="leading" id="rmh-XM-i2w"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Dashboard" id="bkE-1R-gnl">
                         <barButtonItem key="leftBarButtonItem" title="Sign Out" id="AXI-gc-BYa">
                             <connections>
-                                <action selector="signOutDidTouch:" destination="a8R-3J-Dij" id="biI-Y0-2Cw"/>
+                                <segue destination="RUL-Br-WcV" kind="unwind" identifier="SignOutSegue" unwindAction="signOutDidTouch:" id="RnW-6r-uiM"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="qHm-zT-zqB"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="vR7-nZ-jF1" id="TAd-7E-IOl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3FU-LD-wfz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="RUL-Br-WcV" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1524" y="1251"/>
+            <point key="canvasLocation" x="2336" y="1265"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9GI-I5-nMx">
@@ -295,6 +307,7 @@
         <!--Navigation Controller-->
         <scene sceneID="cMn-5a-BOk">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qVz-p4-Cbg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FnH-Ob-6OI" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="smX-0v-TEs">
@@ -306,9 +319,11 @@
                         <segue destination="a8R-3J-Dij" kind="relationship" relationship="rootViewController" id="Nfh-BC-Hqa"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qVz-p4-Cbg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="695" y="1251"/>
+            <point key="canvasLocation" x="1524" y="1265"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="366-tP-grG"/>
+    </inferredMetricsTieBreakers>
 </document>

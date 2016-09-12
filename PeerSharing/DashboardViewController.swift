@@ -7,17 +7,20 @@
 //
 
 import UIKit
-import CoreLocation
 import Firebase
 
 class DashboardViewController: UIViewController {
     
+    @IBOutlet weak var mapView: GMSMapView!
+    
     var newUser: User!
-
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,22 +38,29 @@ class DashboardViewController: UIViewController {
         })
     }
     
-    @IBAction func signOutDidTouch(sender: AnyObject) {
-        try! FIRAuth.auth()?.signOut()
-        
-        dismissViewControllerAnimated(true, completion: nil)
-    
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "SignOutSegue" {
+            try! FIRAuth.auth()?.signOut()
+        
+        }
     }
-    */
 
+}
+
+extension DashboardViewController: CLLocationManagerDelegate {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            locationManager.stopUpdatingLocation()
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .AuthorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+            mapView.myLocationEnabled = true
+            mapView.settings.myLocationButton = true
+            
+        }
+    }
 }

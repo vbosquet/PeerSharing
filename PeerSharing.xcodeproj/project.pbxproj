@@ -35,6 +35,7 @@
 		555B12E81D8322BE00CB39F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		555DD1431D83503400F829FB /* FirebaseAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuth.framework; path = Pods/FirebaseAuth/Frameworks/frameworks/FirebaseAuth.framework; sourceTree = "<group>"; };
 		555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
+		5CFFAFEE1D86BA4F004D68AF /* PeerSharing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PeerSharing-Bridging-Header.h"; sourceTree = "<group>"; };
 		77500D1977B1CC512DDE1EB8 /* Pods_PeerSharing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PeerSharing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E29E2A71D849BFB00F6A449 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8EE319751D85EC8500BE5B35 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -96,6 +97,7 @@
 				5511D7181D847A6100D313BF /* User.swift */,
 				5511D71A1D847CFF00D313BF /* DashboardViewController.swift */,
 				8EE319751D85EC8500BE5B35 /* Functions.swift */,
+				5CFFAFEE1D86BA4F004D68AF /* PeerSharing-Bridging-Header.h */,
 			);
 			path = PeerSharing;
 			sourceTree = "<group>";
@@ -351,6 +353,7 @@
 			baseConfigurationReference = 334931E254F56DE742E8EC79 /* Pods-PeerSharing.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/FirebaseAuth/Frameworks/frameworks",
@@ -359,6 +362,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.virginie.PeerSharing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PeerSharing/PeerSharing-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -367,6 +372,7 @@
 			baseConfigurationReference = ABB05B64249042E4CCEE1A07 /* Pods-PeerSharing.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/FirebaseAuth/Frameworks/frameworks",
@@ -375,6 +381,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.virginie.PeerSharing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PeerSharing/PeerSharing-Bridging-Header.h";
 			};
 			name = Release;
 		};

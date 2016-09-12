@@ -24,10 +24,6 @@ class SignUpTableViewController: UITableViewController {
     
     @IBAction func saveProfilInfos(sender: AnyObject) {
         
-        let newUser = User(firstName: firstNameTextField.text!, lastName: lastNameTextField.text!, address: addressTextField.text!, postalCode: postalCodeTextField.text!, city: cityTextField.text!)
-        let newUserRef = ref.child(firstNameTextField.text!.lowercaseString)
-        newUserRef.setValue(newUser.toAnyObject())
-        
         FIRAuth.auth()?.createUserWithEmail(emailTextField.text!, password: passwordTextField.text!, completion: { (user, error) in
             if error == nil {
                 FIRAuth.auth()?.signInWithEmail(self.emailTextField.text!, password: self.passwordTextField.text!, completion: { (user, error) in
@@ -36,14 +32,23 @@ class SignUpTableViewController: UITableViewController {
             }
         })
         
-        print("User created")
-        
-        dismissViewControllerAnimated(true, completion: nil)
-        
     }
     
     @IBAction func cancelRegistration(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
+            if let user = user {
+                let newUser = User(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, address: self.addressTextField.text!, postalCode: self.postalCodeTextField.text!, city: self.cityTextField.text!)
+                let newUserRef = self.ref.child("users").child(user.uid)
+                newUserRef.setValue(newUser.toAnyObject())
+                
+                self.performSegueWithIdentifier("SignInSegue", sender: nil)
+            }
+        })
     }
 
     override func viewDidLoad() {

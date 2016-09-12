@@ -13,10 +13,14 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    let googleMapsApiKey = "AIzaSyCoj1bXcJyYKKpmLTs7y3_9uhe0YT2usCw"
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         FIRApp.configure()
+        GMSServices.provideAPIKey(googleMapsApiKey)
+        
         return true
     }
 

@@ -44,9 +44,13 @@ class LoginViewController: UIViewController {
     
     
     @IBAction func signUpDidTouch(sender: AnyObject) {
-        
     
     }
+    
+    @IBAction func signOutDidTouch(segue: UIStoryboardSegue) {
+    }
+    
+    
     
 }
 
