@@ -16,6 +16,8 @@
 		555B12E11D83226C00CB39F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555B12DF1D83226C00CB39F3 /* LaunchScreen.storyboard */; };
 		555B12E91D8322BE00CB39F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 555B12E81D8322BE00CB39F3 /* GoogleService-Info.plist */; };
 		555DD1461D83FC6B00F829FB /* SignUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */; };
+		5CFFAFF41D86E71F004D68AF /* MyObjectsToLendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFAFF31D86E71F004D68AF /* MyObjectsToLendTableViewController.swift */; };
+		5CFFAFF61D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFAFF51D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift */; };
 		6ADD453FEBAF97D4B2998E03 /* Pods_PeerSharing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77500D1977B1CC512DDE1EB8 /* Pods_PeerSharing.framework */; };
 		8E29E2A81D849BFB00F6A449 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E29E2A71D849BFB00F6A449 /* MapKit.framework */; };
 		8EE319761D85EC8500BE5B35 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE319751D85EC8500BE5B35 /* Functions.swift */; };
@@ -36,6 +38,8 @@
 		555DD1431D83503400F829FB /* FirebaseAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuth.framework; path = Pods/FirebaseAuth/Frameworks/frameworks/FirebaseAuth.framework; sourceTree = "<group>"; };
 		555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
 		5CFFAFEE1D86BA4F004D68AF /* PeerSharing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PeerSharing-Bridging-Header.h"; sourceTree = "<group>"; };
+		5CFFAFF31D86E71F004D68AF /* MyObjectsToLendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyObjectsToLendTableViewController.swift; sourceTree = "<group>"; };
+		5CFFAFF51D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosingObjectsToLendTableViewController.swift; sourceTree = "<group>"; };
 		77500D1977B1CC512DDE1EB8 /* Pods_PeerSharing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PeerSharing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E29E2A71D849BFB00F6A449 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8EE319751D85EC8500BE5B35 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -98,6 +102,8 @@
 				5511D71A1D847CFF00D313BF /* DashboardViewController.swift */,
 				8EE319751D85EC8500BE5B35 /* Functions.swift */,
 				5CFFAFEE1D86BA4F004D68AF /* PeerSharing-Bridging-Header.h */,
+				5CFFAFF31D86E71F004D68AF /* MyObjectsToLendTableViewController.swift */,
+				5CFFAFF51D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift */,
 			);
 			path = PeerSharing;
 			sourceTree = "<group>";
@@ -236,7 +242,9 @@
 			files = (
 				5511D7191D847A6100D313BF /* User.swift in Sources */,
 				555DD1461D83FC6B00F829FB /* SignUpTableViewController.swift in Sources */,
+				5CFFAFF61D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift in Sources */,
 				5511D71B1D847CFF00D313BF /* DashboardViewController.swift in Sources */,
+				5CFFAFF41D86E71F004D68AF /* MyObjectsToLendTableViewController.swift in Sources */,
 				555B12D91D83226C00CB39F3 /* LoginViewController.swift in Sources */,
 				555B12D71D83226C00CB39F3 /* AppDelegate.swift in Sources */,
 				8EE319761D85EC8500BE5B35 /* Functions.swift in Sources */,
