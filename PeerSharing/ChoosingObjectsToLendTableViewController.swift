@@ -8,57 +8,39 @@
 
 import UIKit
 
+protocol ChoosingObjectsToLendTableViewControllerDelegate: class {
+    func selectObjectToLend(picker: ChoosingObjectsToLendTableViewController, didSelectObject objectName: [String])
+}
+
 class ChoosingObjectsToLendTableViewController: UITableViewController {
     
-    let objectsToSelect = [
-        "Pompe à vélo",
-        "Mixer",
-        "Balance de cuisine",
-        "Forme à gâteau",
-        "Four à raclette",
-        "Cuiseur de riz",
-        "Set à fondue",
-        "Fer à gaufre",
-        "Machine à pâtes",
-        "Wok",
-        "Grill",
-        "Outils",
-        "Perceuse",
-        "Ping pong",
-        "Trépied",
-        "Boule disco",
-        "Jeux pour enfant",
-        "Cerf volant",
-        "Tente",
-        "Livres",
-        "Journeaux",
-        "Scie sauteuse",
-        "Machine à coudre",
-        "Fer à repasser",
-        "Echelle",
-        "Rallonge électrique",
-        "Table de fête",
-        "Outils de jardin",
-        "Tondeuse à gazon",
-        "Vélo",
-        "Remorque à vélo",
-        "Carton à bananes",
-        "Costumes",
-        "Bâteau pneumatique",
-        "Accès internet"
-    ]
-
+    var objectsToSelect = [ObjectToLend]()
+    var objectsSelectedList = [String]()
+    weak var delegate: ChoosingObjectsToLendTableViewControllerDelegate?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        objectsToSelect.append(ObjectToLend(withName: "Pompe à vélo"))
+        objectsToSelect.append(ObjectToLend(withName: "Mixer"))
+        objectsToSelect.append(ObjectToLend(withName: "Balance de cuisine"))
+        objectsToSelect.append(ObjectToLend(withName: "Forme à gâteau"))
+        objectsToSelect.append(ObjectToLend(withName: "Four à raclette"))
+        objectsToSelect.append(ObjectToLend(withName: "Cuiseur de riz"))
+        objectsToSelect.append(ObjectToLend(withName: "Set à fondue"))
+        objectsToSelect.append(ObjectToLend(withName: "Fer à gaufre"))
+        objectsToSelect.append(ObjectToLend(withName: "Machine à pâtes"))
+        objectsToSelect.append(ObjectToLend(withName: "Wok"))
+        objectsToSelect.append(ObjectToLend(withName: "Grill"))
+        objectsToSelect.append(ObjectToLend(withName: "Outils"))
+        objectsToSelect.append(ObjectToLend(withName: "Perceuse"))
+        objectsToSelect.append(ObjectToLend(withName: "Jeux pour enfants"))
+        objectsToSelect.append(ObjectToLend(withName: "Cerf volant"))
+        objectsToSelect.append(ObjectToLend(withName: "Tente"))
+        objectsToSelect.append(ObjectToLend(withName: "Livres"))
+        objectsToSelect.append(ObjectToLend(withName: "Scie sauteuse"))
+        
         
     }
 
@@ -69,18 +51,47 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ObjectToSelect", forIndexPath: indexPath)
-        cell.textLabel!.text = objectsToSelect[indexPath.row]
+        let objectName = objectsToSelect[indexPath.row]
+        cell.textLabel!.text = objectName.name
+        
+        configureChekmarkForCell(cell, indexPath: indexPath)
 
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+            let selectedObject = objectsToSelect[indexPath.row]
+            selectedObject.toggleChecked()
+            configureChekmarkForCell(cell, indexPath: indexPath)
+            objectsSelectedList.append(selectedObject.name)
+        }
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
     }
     
     
     @IBAction func cancelDidTouch(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
+    @IBAction func saveDidTouch(sender: AnyObject) {
+        if let delegate = delegate {
+            delegate.selectObjectToLend(self, didSelectObject: objectsSelectedList)
+        }
+        
+    }
+    
+    
+    func configureChekmarkForCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+        let selectedObject = objectsToSelect[indexPath.row]
+        
+        if selectedObject.checked {
+            cell.accessoryType = .Checkmark
+        } else {
+            cell.accessoryType = .None
+        }
+    
+    }
 }
