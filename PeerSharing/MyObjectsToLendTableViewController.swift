@@ -7,17 +7,39 @@
 //
 
 import UIKit
+import Firebase
 
 class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjectsToLendTableViewControllerDelegate {
     
+    let ref = FIRDatabase.database().reference()
     var myObjectsToLend = [String]()
+    var userAuthenticated: FIRUser?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
+            if let user = user {
+                self.userAuthenticated = user
+                
+                self.ref.child("users").child(user.uid).child("objectsToLend").observeEventType(.Value, withBlock:  { snapchot in
+                    if let objectsListToDiplay = snapchot.value {
+                        self.myObjectsToLend = objectsListToDiplay as! [String]
+                        self.tableView.reloadData()
+                    }
+                })
+            }
+        })
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let user = userAuthenticated {
+            let objectsListToUpdateRef = self.ref.child("users").child(user.uid)
+            objectsListToUpdateRef.updateChildValues(["objectsToLend": self.myObjectsToLend])
+        }
+        
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,6 +80,7 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         myObjectsToLend.removeAtIndex(indexPath.row)
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        
     }
     
 }

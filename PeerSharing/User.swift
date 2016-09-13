@@ -18,6 +18,7 @@ class User {
     var city = ""
     var email = ""
     var uid = ""
+    var objectsToLend = [String]()
     
     init(firstName: String, lastName:String, address: String, postalCode: String, city: String) {
         self.firstName = firstName
@@ -38,6 +39,8 @@ class User {
             "lastName": lastName,
             "address": address,
             "postalCode": postalCode,
-            "city": city
+            "city": city,
+            "objectsToLend": objectsToLend
         ]
-    }}
+    }
+}
