@@ -26,6 +26,7 @@ class User {
         self.address = address
         self.postalCode = postalCode
         self.city = city
+        self.objectsToLend.append("null")
     }
     
     init(user: FIRUser) {

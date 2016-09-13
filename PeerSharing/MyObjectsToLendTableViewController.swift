@@ -13,32 +13,17 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     
     let ref = FIRDatabase.database().reference()
     var myObjectsToLend = [String]()
-    var userAuthenticated: FIRUser?
+    var userAuthenticated = FIRAuth.auth()?.currentUser
+    var replacingObjectsToLendField = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
-            if let user = user {
-                self.userAuthenticated = user
-                
-                self.ref.child("users").child(user.uid).child("objectsToLend").observeEventType(.Value, withBlock:  { snapchot in
-                    if let objectsListToDiplay = snapchot.value {
-                        self.myObjectsToLend = objectsListToDiplay as! [String]
-                        self.tableView.reloadData()
-                    }
-                })
-            }
-        })
+        displayObjectsTolend()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if let user = userAuthenticated {
-            let objectsListToUpdateRef = self.ref.child("users").child(user.uid)
-            objectsListToUpdateRef.updateChildValues(["objectsToLend": self.myObjectsToLend])
-        }
         
     }
 
@@ -63,8 +48,21 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     }
     
     func selectObjectToLend(picker: ChoosingObjectsToLendTableViewController, didSelectObject objectName: [String]) {
-        myObjectsToLend += objectName
-        tableView.reloadData()
+        if replacingObjectsToLendField {
+            myObjectsToLend = objectName
+            replacingObjectsToLendField = false
+            
+        } else {
+            myObjectsToLend += objectName
+        }
+        
+        
+        if let user = userAuthenticated {
+            let objectsListToUpdateRef = self.ref.child("users").child(user.uid)
+            objectsListToUpdateRef.updateChildValues(["objectsToLend": self.myObjectsToLend])
+        }
+        
+        displayObjectsTolend()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -80,6 +78,22 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         myObjectsToLend.removeAtIndex(indexPath.row)
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        
+    }
+    
+    func displayObjectsTolend() {
+        if let user = userAuthenticated {
+            self.ref.child("users").child(user.uid).child("objectsToLend").observeEventType(.Value, withBlock:  { snapchot in
+                let objectsListToDiplay = snapchot.value as! [String]
+                self.myObjectsToLend = objectsListToDiplay
+                
+                if self.myObjectsToLend[0] == "null" {
+                    self.replacingObjectsToLendField = true
+                }
+                
+                self.tableView.reloadData()
+            })
+        }
         
     }
     
