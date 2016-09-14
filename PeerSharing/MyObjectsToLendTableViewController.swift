@@ -14,19 +14,28 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     let ref = FIRDatabase.database().reference()
     var myObjectsToLend = [String]()
     var userAuthenticated = FIRAuth.auth()?.currentUser
-    var replacingObjectsToLendField = false
-
+    var valueObserverHandle:UInt?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         displayObjectsTolend()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let valueObserverHandle = self.valueObserverHandle {
+            if let user = userAuthenticated {
+                self.ref.child("users").child(user.uid).child("objectsToLend").removeObserverWithHandle(valueObserverHandle)
+            }
+        }
         
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return myObjectsToLend.count
@@ -48,21 +57,13 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     }
     
     func selectObjectToLend(picker: ChoosingObjectsToLendTableViewController, didSelectObject objectName: [String]) {
-        if replacingObjectsToLendField {
-            myObjectsToLend = objectName
-            replacingObjectsToLendField = false
-            
-        } else {
-            myObjectsToLend += objectName
-        }
-        
+        myObjectsToLend += objectName
         
         if let user = userAuthenticated {
             let objectsListToUpdateRef = self.ref.child("users").child(user.uid)
             objectsListToUpdateRef.updateChildValues(["objectsToLend": self.myObjectsToLend])
         }
         
-        displayObjectsTolend()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -76,22 +77,31 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        myObjectsToLend.removeAtIndex(indexPath.row)
-        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         
+        if let user = userAuthenticated {
+            let objectToDeleteRef = ref.child("users").child(user.uid).child("objectsToLend").child("\(indexPath.row)")
+            objectToDeleteRef.removeValue()
+            
+        }
     }
     
     func displayObjectsTolend() {
         if let user = userAuthenticated {
-            self.ref.child("users").child(user.uid).child("objectsToLend").observeEventType(.Value, withBlock:  { snapchot in
-                let objectsListToDiplay = snapchot.value as! [String]
-                self.myObjectsToLend = objectsListToDiplay
+            self.valueObserverHandle = self.ref.child("users").child(user.uid).child("objectsToLend").observeEventType(.Value, withBlock:  { snapshot in
+                let objectsToDisplay = snapshot.value
                 
-                if self.myObjectsToLend[0] == "null" {
-                    self.replacingObjectsToLendField = true
+                if objectsToDisplay is NSNull {
+                    print("ObjectsToDisplay is of type NSNull")
+                } else if objectsToDisplay is NSArray {
+                    print(objectsToDisplay)
+                    self.myObjectsToLend = [String]()
+                    for object in objectsToDisplay as! NSArray {
+                        if let object = object as? String {
+                            self.myObjectsToLend.append(object)
+                        }
+                    }
+                    self.tableView.reloadData()
                 }
-                
-                self.tableView.reloadData()
             })
         }
         

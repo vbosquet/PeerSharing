@@ -43,6 +43,11 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
         
         
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
