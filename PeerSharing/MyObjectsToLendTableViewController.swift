@@ -28,11 +28,6 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        if let valueObserverHandle = self.valueObserverHandle {
-            if let user = userAuthenticated {
-                self.ref.child("users").child(user.uid).child("objectsToLend").removeObserverWithHandle(valueObserverHandle)
-            }
-        }
         
     }
     
@@ -59,11 +54,24 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     func selectObjectToLend(picker: ChoosingObjectsToLendTableViewController, didSelectObject objectName: [String]) {
         myObjectsToLend += objectName
         
-        if let user = userAuthenticated {
-            let objectsListToUpdateRef = self.ref.child("users").child(user.uid)
-            objectsListToUpdateRef.updateChildValues(["objectsToLend": self.myObjectsToLend])
+        for index in 0..<objectName.count {
+            let objectToSaveRef = ref.child("objectsToLend").child("\(objectName[index])")
+            objectToSaveRef.updateChildValues(["name": objectName[index]])
         }
         
+        if let user = userAuthenticated {
+            for index in 0..<objectName.count {
+                let taggerToSaveRef = ref.child("objectsToLend").child("\(objectName[index])").child("taggers")
+                taggerToSaveRef.updateChildValues([user.uid: "true"])
+            }
+        }
+        
+        if let user = userAuthenticated {
+            for index in 0..<objectName.count {
+                let tagsToSaveRef = ref.child("users").child(user.uid).child("tags")
+                tagsToSaveRef.updateChildValues(["\(objectName[index])": "true"])
+            }
+        }
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -77,31 +85,29 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        let objectToDelete = myObjectsToLend[indexPath.row]
         
         if let user = userAuthenticated {
-            let objectToDeleteRef = ref.child("users").child(user.uid).child("objectsToLend").child("\(indexPath.row)")
-            objectToDeleteRef.removeValue()
-            
+            let tagToDeleteRef = ref.child("users").child(user.uid).child("tags").child(objectToDelete)
+            tagToDeleteRef.removeValue()
         }
+        
     }
     
     func displayObjectsTolend() {
+        
         if let user = userAuthenticated {
-            self.valueObserverHandle = self.ref.child("users").child(user.uid).child("objectsToLend").observeEventType(.Value, withBlock:  { snapshot in
-                let objectsToDisplay = snapshot.value
-                
-                if objectsToDisplay is NSNull {
-                    print("ObjectsToDisplay is of type NSNull")
-                } else if objectsToDisplay is NSArray {
-                    print(objectsToDisplay)
-                    self.myObjectsToLend = [String]()
-                    for object in objectsToDisplay as! NSArray {
-                        if let object = object as? String {
-                            self.myObjectsToLend.append(object)
-                        }
-                    }
-                    self.tableView.reloadData()
+            valueObserverHandle = ref.child("users").child(user.uid).child("tags").observeEventType(.Value, withBlock: { snapshot in
+                let tags = snapshot.value as! NSDictionary
+                var tagList = [String]()
+                for key in tags.keyEnumerator() {
+                    print("\(key)")
+                    tagList.append("\(key)")
                 }
+                
+                self.myObjectsToLend = tagList
+                self.tableView.reloadData()
+            
             })
         }
         
