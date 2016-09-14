@@ -14,8 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    let googleMapsApiKey = "AIzaSyCoj1bXcJyYKKpmLTs7y3_9uhe0YT2usCw"
-
+    let googleMapsApiKey = "AIzaSyDgUUUiGtuMmCxJpXAfRNrk48_ysBaIDRg"
+    
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         FIRApp.configure()

@@ -68,8 +68,8 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         
         if let user = userAuthenticated {
             for index in 0..<objectName.count {
-                let tagsToSaveRef = ref.child("users").child(user.uid).child("tags")
-                tagsToSaveRef.updateChildValues(["\(objectName[index])": "true"])
+                let tagToSaveRef = ref.child("users").child(user.uid).child("tags")
+                tagToSaveRef.updateChildValues(["\(objectName[index])": "true"])
             }
         }
         dismissViewControllerAnimated(true, completion: nil)
@@ -90,7 +90,13 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         if let user = userAuthenticated {
             let tagToDeleteRef = ref.child("users").child(user.uid).child("tags").child(objectToDelete)
             tagToDeleteRef.removeValue()
+            
+            let taggerToDeleteRef = ref.child("objectsToLend").child(objectToDelete).child("taggers").child(user.uid)
+            taggerToDeleteRef.removeValue()
         }
+        
+        myObjectsToLend.removeAtIndex(indexPath.row)
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         
     }
     
@@ -98,15 +104,21 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         
         if let user = userAuthenticated {
             valueObserverHandle = ref.child("users").child(user.uid).child("tags").observeEventType(.Value, withBlock: { snapshot in
-                let tags = snapshot.value as! NSDictionary
-                var tagList = [String]()
-                for key in tags.keyEnumerator() {
-                    print("\(key)")
-                    tagList.append("\(key)")
-                }
+                let tags = snapshot.value
                 
-                self.myObjectsToLend = tagList
-                self.tableView.reloadData()
+                if tags is NSNull {
+                    print("There is no tag to display")
+                } else if tags is NSDictionary {
+                    var tagList = [String]()
+                    
+                    for key in tags!.keyEnumerator() {
+                        tagList.append("\(key)")
+                    }
+                    
+                    self.myObjectsToLend = tagList
+                    self.tableView.reloadData()
+                    
+                }
             
             })
         }
