@@ -29,6 +29,11 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
+        if let valueObserverHandle = self.valueObserverHandle {
+            if let user = userAuthenticated {
+                self.ref.child("users").child(user.uid).child("tags").removeObserverWithHandle(valueObserverHandle)
+            }
+        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

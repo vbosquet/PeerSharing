@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    let googleMapsApiKey = "AIzaSyDgUUUiGtuMmCxJpXAfRNrk48_ysBaIDRg"
+    let googleMapsApiKey = "AIzaSyDkIlmHd1weC9BG_sUgV6Fjby_VwWZkFLQ"
     
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
