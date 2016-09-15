@@ -21,6 +21,7 @@ class SignUpTableViewController: UITableViewController {
     @IBOutlet weak var cityTextField: UITextField!
     
     let ref = FIRDatabase.database().reference()
+    let geoCoder = CLGeocoder()
     
     @IBAction func saveProfilInfos(sender: AnyObject) {
         
@@ -46,7 +47,26 @@ class SignUpTableViewController: UITableViewController {
                 let newUserRef = self.ref.child("users").child(user.uid)
                 newUserRef.setValue(newUser.toAnyObject())
                 
+                let newLocation = self.addressTextField.text! + ", " + self.postalCodeTextField.text! + " " + self.cityTextField.text!
+                self.getCoordonateFromAddress(newLocation, user: user)
+                
                 self.performSegueWithIdentifier("SignInSegue", sender: nil)
+            }
+        })
+    }
+    
+    func getCoordonateFromAddress(location: String, user: FIRUser) {
+        self.geoCoder.geocodeAddressString(location, completionHandler: { (placemarks, error) in
+            if error == nil, let p = placemarks where !p.isEmpty {
+                let mark = CLPlacemark(placemark: placemarks![0])
+                let latitude = mark.location?.coordinate.latitude
+                let longitude = mark.location?.coordinate.longitude
+                
+                let newLatitudeRef = self.ref.child("addressLocation").child(user.uid).child("latitude")
+                newLatitudeRef.setValue(latitude)
+                
+                let newLongitudeRef = self.ref.child("addressLocation").child(user.uid).child("longitude")
+                newLongitudeRef.setValue(longitude)
             }
         })
     }

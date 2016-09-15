@@ -24,10 +24,6 @@ class DashboardViewController: UIViewController {
     var placemark: CLPlacemark?
     
     var taggersList = [String]()
-    var newLocations = [String]()
-    var address = [String]()
-    var postalCode = [String]()
-    var city = [String]()
     
     @IBAction func pickPlace(sender: UIBarButtonItem) {
         
@@ -35,9 +31,10 @@ class DashboardViewController: UIViewController {
         
         let sendAction = UIAlertAction(title: "Send", style: .Default) { (action: UIAlertAction) -> Void in
             let textField = alert.textFields![0]
+            print(textField.text!)
+            
             self.ref.child("objectsToLend").child("\(textField.text!)").child("taggers").observeEventType(.Value, withBlock: { snapshot in
                 let taggers = snapshot.value
-                
                 if taggers is NSNull {
                     print("Nobody has this object")
                 } else if taggers is NSDictionary {
@@ -46,7 +43,23 @@ class DashboardViewController: UIViewController {
                             self.taggersList.append("\(key)")
                         }
                     }
-                    self.findNewLocations()
+                    
+                    print(self.taggersList)
+                    
+                    for i in 0..<self.taggersList.count {
+                        self.ref.child("addressLocation").child(self.taggersList[i]).observeEventType(.Value, withBlock: { snapshot in
+                            print(snapshot)
+                            let latitude = snapshot.value!["latitude"] as! Double
+                            let longitude = snapshot.value!["longitude"] as! Double
+                            
+                            
+                            let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                            let marker = GMSMarker(position: position)
+                            self.mapView.camera = GMSCameraPosition(target: position, zoom: 15, bearing: 0, viewingAngle: 0)
+                            marker.title = "New location"
+                            marker.map = self.mapView
+                        })
+                    }
                 }
             })
         }
@@ -64,45 +77,6 @@ class DashboardViewController: UIViewController {
         
     }
     
-    func findNewLocations() {
-        
-        for index in taggersList {
-            ref.child("users").child(index).observeEventType(.Value, withBlock: { snapshot in
-                let userInfos = snapshot.value as! NSDictionary
-                
-                for (key, value) in userInfos {
-                    if key as! String == "address" {
-                        self.address.append(value as! String)
-                    } else if key as! String == "postalCode" {
-                        self.postalCode.append(value as! String)
-                    } else if key as! String == "city" {
-                        self.city.append(value as! String)
-                    }
-                }
-
-            })
-        }
-    }
-    
-    func getCoordonateFromAddress(location: String) {
-        self.geoCoder.geocodeAddressString(location, completionHandler: { (placemarks, error) in
-            if error == nil, let p = placemarks where !p.isEmpty {
-                let mark = CLPlacemark(placemark: placemarks![0])
-                self.displayNewLocation(mark)
-                print("latitude: \(mark.location!.coordinate.latitude)")
-                print("longitude: \(mark.location!.coordinate.longitude)")
-            }
-        })
-    }
-    
-    func displayNewLocation(placemark: CLPlacemark) {
-        mapView.camera = GMSCameraPosition(target: (placemark.location?.coordinate)!, zoom: 15, bearing: 0, viewingAngle: 0)
-        let position = CLLocationCoordinate2D(latitude: placemark.location!.coordinate.latitude, longitude: placemark.location!.coordinate.longitude)
-        let marker = GMSMarker(position: position)
-        marker.title = "New location"
-        marker.map = mapView
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
