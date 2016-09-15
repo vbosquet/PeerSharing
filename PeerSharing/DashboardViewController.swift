@@ -9,19 +9,100 @@
 import UIKit
 import Firebase
 import CoreLocation
+import GooglePlacePicker
 
 class DashboardViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     
-    var newUser: User!
+    let ref = FIRDatabase.database().reference()
+    let user = FIRAuth.auth()?.currentUser
     
     let locationManager = CLLocationManager()
     let geoCoder = CLGeocoder()
     var location: CLLocation?
     var placemark: CLPlacemark?
     
+    var taggersList = [String]()
+    var newLocations = [String]()
+    var address = [String]()
+    var postalCode = [String]()
+    var city = [String]()
     
+    @IBAction func pickPlace(sender: UIBarButtonItem) {
+        
+        let alert = UIAlertController(title: "What are you looking for?", message: "Enter an object", preferredStyle: .Alert)
+        
+        let sendAction = UIAlertAction(title: "Send", style: .Default) { (action: UIAlertAction) -> Void in
+            let textField = alert.textFields![0]
+            self.ref.child("objectsToLend").child("\(textField.text!)").child("taggers").observeEventType(.Value, withBlock: { snapshot in
+                let taggers = snapshot.value
+                
+                if taggers is NSNull {
+                    print("Nobody has this object")
+                } else if taggers is NSDictionary {
+                    for key in taggers!.keyEnumerator() {
+                        if key as? String != self.user?.uid {
+                            self.taggersList.append("\(key)")
+                        }
+                    }
+                    self.findNewLocations()
+                }
+            })
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction) -> Void in
+        }
+        
+        alert.addTextFieldWithConfigurationHandler { (textField: UITextField!) -> Void in
+        }
+        
+        alert.addAction(sendAction)
+        alert.addAction(cancelAction)
+        
+        presentViewController(alert, animated: true, completion: nil)
+        
+    }
+    
+    func findNewLocations() {
+        
+        for index in taggersList {
+            ref.child("users").child(index).observeEventType(.Value, withBlock: { snapshot in
+                let userInfos = snapshot.value as! NSDictionary
+                
+                for (key, value) in userInfos {
+                    if key as! String == "address" {
+                        self.address.append(value as! String)
+                    } else if key as! String == "postalCode" {
+                        self.postalCode.append(value as! String)
+                    } else if key as! String == "city" {
+                        self.city.append(value as! String)
+                    }
+                }
+
+            })
+        }
+    }
+    
+    func getCoordonateFromAddress(location: String) {
+        self.geoCoder.geocodeAddressString(location, completionHandler: { (placemarks, error) in
+            if error == nil, let p = placemarks where !p.isEmpty {
+                let mark = CLPlacemark(placemark: placemarks![0])
+                self.displayNewLocation(mark)
+                print("latitude: \(mark.location!.coordinate.latitude)")
+                print("longitude: \(mark.location!.coordinate.longitude)")
+            }
+        })
+    }
+    
+    func displayNewLocation(placemark: CLPlacemark) {
+        mapView.camera = GMSCameraPosition(target: (placemark.location?.coordinate)!, zoom: 15, bearing: 0, viewingAngle: 0)
+        let position = CLLocationCoordinate2D(latitude: placemark.location!.coordinate.latitude, longitude: placemark.location!.coordinate.longitude)
+        let marker = GMSMarker(position: position)
+        marker.title = "New location"
+        marker.map = mapView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,11 +121,6 @@ class DashboardViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
-            if let user = user {
-                self.newUser = User(user: user)
-            }
-        })
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -58,11 +134,7 @@ class DashboardViewController: UIViewController {
         mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
         let position = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let marker = GMSMarker(position: position)
-        
-        if let placemark = placemark {
-            marker.title = stringFromPlacemark(placemark)
-        }
-        
+        marker.title = "You are here"
         marker.map = mapView
     }
     
@@ -92,13 +164,8 @@ extension DashboardViewController: CLLocationManagerDelegate {
         location = newLocation
         
         if let location = location {
-            geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemark, error) in
-                if error == nil, let p = placemark where !p.isEmpty {
-                    self.placemark = p.last
-                    self.updateMapView(location)
-                    self.locationManager.stopUpdatingLocation()
-                }
-            })
+            self.updateMapView(location)
+            self.locationManager.stopUpdatingLocation()
         }
     }
 }

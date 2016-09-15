@@ -385,6 +385,11 @@
                                 <segue destination="RUL-Br-WcV" kind="unwind" identifier="SignOutSegue" unwindAction="signOutDidTouch:" id="RnW-6r-uiM"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="6eA-aB-Cy9">
+                            <connections>
+                                <action selector="pickPlace:" destination="a8R-3J-Dij" id="MU4-cz-x5f"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="vR7-nZ-jF1" id="TAd-7E-IOl"/>
