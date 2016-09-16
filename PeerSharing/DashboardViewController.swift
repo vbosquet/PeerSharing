@@ -43,20 +43,20 @@ class DashboardViewController: UIViewController {
                             self.taggersList.append("\(key)")
                         }
                     }
-                    
-                    print(self.taggersList)
-                    
+                
                     for i in 0..<self.taggersList.count {
                         self.ref.child("addressLocation").child(self.taggersList[i]).observeEventType(.Value, withBlock: { snapshot in
-                            print(snapshot)
+                            
                             let latitude = snapshot.value!["latitude"] as! Double
                             let longitude = snapshot.value!["longitude"] as! Double
-                            
+                            let name = snapshot.value!["firstName"] as! String
                             
                             let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                             let marker = GMSMarker(position: position)
+                            
                             self.mapView.camera = GMSCameraPosition(target: position, zoom: 15, bearing: 0, viewingAngle: 0)
-                            marker.title = "New location"
+                            marker.title = "Contact \(name)"
+                            marker.icon = GMSMarker.markerImageWithColor(UIColor.greenColor())
                             marker.map = self.mapView
                         })
                     }
@@ -87,14 +87,10 @@ class DashboardViewController: UIViewController {
             return
         }
         
+        mapView.delegate = self
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -108,7 +104,7 @@ class DashboardViewController: UIViewController {
         mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
         let position = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let marker = GMSMarker(position: position)
-        marker.title = "You are here"
+        marker.title = "Your current position"
         marker.map = mapView
     }
     
@@ -141,5 +137,11 @@ extension DashboardViewController: CLLocationManagerDelegate {
             self.updateMapView(location)
             self.locationManager.stopUpdatingLocation()
         }
+    }
+}
+
+extension DashboardViewController: GMSMapViewDelegate {
+    func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
+        self.performSegueWithIdentifier("ShowHelloWorldSegue", sender: nil)
     }
 }

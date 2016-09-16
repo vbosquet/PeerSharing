@@ -77,6 +77,12 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
                 tagToSaveRef.updateChildValues(["\(objectName[index])": "true"])
             }
         }
+        
+        if let user = userAuthenticated {
+            let nameUserRef = self.ref.child("addressLocation").child(user.uid).child("firstName")
+            nameUserRef.setValue(user.displayName)
+        }
+        
         dismissViewControllerAnimated(true, completion: nil)
     }
     

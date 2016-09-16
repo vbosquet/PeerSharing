@@ -43,6 +43,18 @@ class SignUpTableViewController: UITableViewController {
         
         FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
             if let user = user {
+                
+                let changeRequest = user.profileChangeRequest()
+                changeRequest.displayName = self.firstNameTextField.text!
+                changeRequest.commitChangesWithCompletion({ (error) in
+                    if let error = error {
+                        print("Can not update user's profile because of error: \(error)")
+                    } else {
+                        print("Profile updated")
+                    }
+                })
+                
+                
                 let newUser = User(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, address: self.addressTextField.text!, postalCode: self.postalCodeTextField.text!, city: self.cityTextField.text!)
                 let newUserRef = self.ref.child("users").child(user.uid)
                 newUserRef.setValue(newUser.toAnyObject())
