@@ -16,7 +16,7 @@
 		555B12E11D83226C00CB39F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555B12DF1D83226C00CB39F3 /* LaunchScreen.storyboard */; };
 		555B12E91D8322BE00CB39F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 555B12E81D8322BE00CB39F3 /* GoogleService-Info.plist */; };
 		555DD1461D83FC6B00F829FB /* SignUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */; };
-		5C6707871D8BF1890056AB2B /* HelloWorldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6707861D8BF1890056AB2B /* HelloWorldViewController.swift */; };
+		5C6707871D8BF1890056AB2B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6707861D8BF1890056AB2B /* ChatViewController.swift */; };
 		5CDD250D1D87EA200007AE8C /* ObjectToLend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDD250C1D87EA200007AE8C /* ObjectToLend.swift */; };
 		5CFFAFF41D86E71F004D68AF /* MyObjectsToLendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFAFF31D86E71F004D68AF /* MyObjectsToLendTableViewController.swift */; };
 		5CFFAFF61D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFAFF51D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift */; };
@@ -39,7 +39,7 @@
 		555B12E81D8322BE00CB39F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		555DD1431D83503400F829FB /* FirebaseAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuth.framework; path = Pods/FirebaseAuth/Frameworks/frameworks/FirebaseAuth.framework; sourceTree = "<group>"; };
 		555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
-		5C6707861D8BF1890056AB2B /* HelloWorldViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelloWorldViewController.swift; sourceTree = "<group>"; };
+		5C6707861D8BF1890056AB2B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		5CDD250C1D87EA200007AE8C /* ObjectToLend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectToLend.swift; sourceTree = "<group>"; };
 		5CFFAFEE1D86BA4F004D68AF /* PeerSharing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PeerSharing-Bridging-Header.h"; sourceTree = "<group>"; };
 		5CFFAFF31D86E71F004D68AF /* MyObjectsToLendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyObjectsToLendTableViewController.swift; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 				5CFFAFF31D86E71F004D68AF /* MyObjectsToLendTableViewController.swift */,
 				5CFFAFF51D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift */,
 				5CDD250C1D87EA200007AE8C /* ObjectToLend.swift */,
-				5C6707861D8BF1890056AB2B /* HelloWorldViewController.swift */,
+				5C6707861D8BF1890056AB2B /* ChatViewController.swift */,
 			);
 			path = PeerSharing;
 			sourceTree = "<group>";
@@ -248,7 +248,7 @@
 			files = (
 				5511D7191D847A6100D313BF /* User.swift in Sources */,
 				5CDD250D1D87EA200007AE8C /* ObjectToLend.swift in Sources */,
-				5C6707871D8BF1890056AB2B /* HelloWorldViewController.swift in Sources */,
+				5C6707871D8BF1890056AB2B /* ChatViewController.swift in Sources */,
 				555DD1461D83FC6B00F829FB /* SignUpTableViewController.swift in Sources */,
 				5CFFAFF61D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift in Sources */,
 				5511D71B1D847CFF00D313BF /* DashboardViewController.swift in Sources */,

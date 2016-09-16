@@ -393,7 +393,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="vR7-nZ-jF1" id="TAd-7E-IOl"/>
-                        <segue destination="zsd-16-D4O" kind="show" identifier="ShowHelloWorldSegue" id="d2h-N5-B3t"/>
+                        <segue destination="9MG-vw-rM8" kind="presentation" identifier="LoginToChat" id="ObD-ut-oEE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3FU-LD-wfz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -401,10 +401,10 @@
             </objects>
             <point key="canvasLocation" x="2336" y="1265"/>
         </scene>
-        <!--Hello World View Controller-->
+        <!--Chat-->
         <scene sceneID="Bsq-Zv-qlV">
             <objects>
-                <viewController id="zsd-16-D4O" customClass="HelloWorldViewController" customModule="PeerSharing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="zsd-16-D4O" customClass="ChatViewController" customModule="PeerSharing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b8z-Py-aSi"/>
                         <viewControllerLayoutGuide type="bottom" id="4Z5-YN-ezn"/>
@@ -412,27 +412,19 @@
                     <view key="view" contentMode="scaleToFill" id="l7B-Rb-FBG">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, world!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f49-tQ-MFT">
-                                <rect key="frame" x="253" y="289" width="95" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="Wac-TM-EzX"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="f49-tQ-MFT" firstAttribute="centerX" secondItem="l7B-Rb-FBG" secondAttribute="centerX" id="5iD-hm-2Q9"/>
-                            <constraint firstItem="f49-tQ-MFT" firstAttribute="centerY" secondItem="l7B-Rb-FBG" secondAttribute="centerY" id="uOc-Of-rbC"/>
-                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Chat" id="mdn-BS-3Hf">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="o5p-NP-Wgc">
+                            <connections>
+                                <action selector="backButtonDidTouch:" destination="zsd-16-D4O" id="gd2-xZ-sYF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="480-OE-uQW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3035" y="1265"/>
+            <point key="canvasLocation" x="3885" y="1265"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9GI-I5-nMx">
@@ -508,6 +500,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fUI-hW-QvR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2336" y="2806"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="lr2-DJ-ddV">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9MG-vw-rM8" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pzg-OU-8bq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zsd-16-D4O" kind="relationship" relationship="rootViewController" id="hCl-qY-WT6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U5y-7v-GXN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3073" y="1265"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

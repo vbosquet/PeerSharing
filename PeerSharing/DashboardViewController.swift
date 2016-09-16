@@ -19,7 +19,6 @@ class DashboardViewController: UIViewController {
     let user = FIRAuth.auth()?.currentUser
     
     let locationManager = CLLocationManager()
-    let geoCoder = CLGeocoder()
     var location: CLLocation?
     var placemark: CLPlacemark?
     
@@ -96,8 +95,19 @@ class DashboardViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SignOutSegue" {
             try! FIRAuth.auth()?.signOut()
-        
+        } else if segue.identifier == "LoginToChat" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let controller = navigationController.topViewController as! ChatViewController
+            
+            if let user = user {
+                controller.senderId = user.uid
+                controller.senderDisplayName = user.displayName
+                
+            }
+            
+            
         }
+        
     }
     
     func updateMapView(location: CLLocation) {
@@ -142,6 +152,6 @@ extension DashboardViewController: CLLocationManagerDelegate {
 
 extension DashboardViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
-        self.performSegueWithIdentifier("ShowHelloWorldSegue", sender: nil)
+        self.performSegueWithIdentifier("LoginToChat", sender: nil)
     }
 }
