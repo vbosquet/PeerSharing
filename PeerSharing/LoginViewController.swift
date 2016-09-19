@@ -37,8 +37,23 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginDidTouch(sender: AnyObject) {
         FIRAuth.auth()?.signInWithEmail(emailAddressTextField.text!, password: passwordTextField.text!, completion: { (user, error) in
-            
+            if error != nil {
+                switch error!.code {
+                case FIRAuthErrorCode.ErrorCodeWrongPassword.rawValue:
+                    self.displayAlert("Your password is incorrect.")
+                default:
+                    self.displayAlert("Enter a valid email and password.")
+                }
+            }
         })
+        
+    }
+    
+    func displayAlert(message: String) {
+        let alert = UIAlertController(title: "Error Entry", message: message, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alert.addAction(action)
+        self.presentViewController(alert, animated: true, completion: nil)
         
     }
     

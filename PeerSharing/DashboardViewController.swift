@@ -46,17 +46,24 @@ class DashboardViewController: UIViewController {
                     for i in 0..<self.taggersList.count {
                         self.ref.child("addressLocation").child(self.taggersList[i]).observeEventType(.Value, withBlock: { snapshot in
                             
-                            let latitude = snapshot.value!["latitude"] as! Double
-                            let longitude = snapshot.value!["longitude"] as! Double
-                            let name = snapshot.value!["firstName"] as! String
-                            
-                            let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                            let marker = GMSMarker(position: position)
-                            
-                            self.mapView.camera = GMSCameraPosition(target: position, zoom: 15, bearing: 0, viewingAngle: 0)
-                            marker.title = "Contact \(name)"
-                            marker.icon = GMSMarker.markerImageWithColor(UIColor.greenColor())
-                            marker.map = self.mapView
+                            if snapshot.value is NSNull {
+                                print("No infos available")
+                                
+                            } else {
+                                
+                                let latitude = snapshot.value!["latitude"] as! Double
+                                let longitude = snapshot.value!["longitude"] as! Double
+                                let name = snapshot.value!["firstName"] as! String
+                                
+                                let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                                let marker = GMSMarker(position: position)
+                                
+                                self.mapView.camera = GMSCameraPosition(target: position, zoom: 15, bearing: 0, viewingAngle: 0)
+                                marker.title = "Contact \(name)"
+                                marker.icon = GMSMarker.markerImageWithColor(UIColor.greenColor())
+                                marker.map = self.mapView
+                                
+                            }
                         })
                     }
                 }

@@ -103,12 +103,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z1J-EZ-guR">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z1J-EZ-guR">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="G49-cu-qi0"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="z1J-EZ-guR" secondAttribute="trailing" id="JOL-3L-4s1"/>
+                                                <constraint firstItem="z1J-EZ-guR" firstAttribute="centerY" secondItem="Ely-vT-Mtl" secondAttribute="centerY" id="RHz-TG-Dtk"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="z1J-EZ-guR" secondAttribute="leading" id="z2r-c4-UEp"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="xw4-hU-EZJ">
@@ -237,6 +245,7 @@
                         <outlet property="lastNameTextField" destination="2dy-jY-KfJ" id="yoU-hq-PkQ"/>
                         <outlet property="passwordTextField" destination="kTD-ss-Fev" id="92U-5w-jDl"/>
                         <outlet property="postalCodeTextField" destination="wmn-zo-XkJ" id="UNj-91-qhd"/>
+                        <outlet property="saveButton" destination="wQC-A6-pLg" id="hda-sx-rUf"/>
                         <segue destination="2RR-3r-Fzq" kind="presentation" identifier="SignInSegue" id="CiY-N9-vYX"/>
                     </connections>
                 </tableViewController>

@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class SignUpTableViewController: UITableViewController {
+class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var emailTextField: UITextField!
@@ -19,19 +19,44 @@ class SignUpTableViewController: UITableViewController {
     @IBOutlet weak var addressTextField: UITextField!
     @IBOutlet weak var postalCodeTextField: UITextField!
     @IBOutlet weak var cityTextField: UITextField!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     let ref = FIRDatabase.database().reference()
     let geoCoder = CLGeocoder()
     
     @IBAction func saveProfilInfos(sender: AnyObject) {
         
+        if emailTextField.text == "" || passwordTextField.text == "" || firstNameTextField.text  == "" || lastNameTextField.text == "" || addressTextField.text == "" || postalCodeTextField.text == "" || cityTextField.text == "" {
+            displayAlert("Please fill in all required fields.")
+        }
+        
         FIRAuth.auth()?.createUserWithEmail(emailTextField.text!, password: passwordTextField.text!, completion: { (user, error) in
             if error == nil {
                 FIRAuth.auth()?.signInWithEmail(self.emailTextField.text!, password: self.passwordTextField.text!, completion: { (user, error) in
                     
                 })
+            } else {
+                
+                switch error!.code {
+                case FIRAuthErrorCode.ErrorCodeEmailAlreadyInUse.rawValue:
+                    self.displayAlert("This email already exists.")
+                case FIRAuthErrorCode.ErrorCodeWeakPassword.rawValue:
+                    self.displayAlert("Your password is not valid.\nIt must contain at least 6 characters.")
+                case FIRAuthErrorCode.ErrorCodeInvalidEmail.rawValue:
+                    self.displayAlert("Your email is not valid.")
+                default:
+                    self.displayAlert("Enter a valid email and password.")
+                }
             }
         })
+        
+    }
+    
+    func displayAlert(message: String) {
+        let alert = UIAlertController(title: "Error Entry", message: message, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alert.addAction(action)
+        self.presentViewController(alert, animated: true, completion: nil)
         
     }
     
@@ -97,7 +122,6 @@ class SignUpTableViewController: UITableViewController {
         return 3
         
     }
-    
 }
 
 
