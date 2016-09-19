@@ -41,8 +41,10 @@ class LoginViewController: UIViewController {
                 switch error!.code {
                 case FIRAuthErrorCode.ErrorCodeWrongPassword.rawValue:
                     self.displayAlert("Your password is incorrect.")
+                case FIRAuthErrorCode.ErrorCodeUserDisabled.rawValue:
+                    self.displayAlert("Your account is disabled.")
                 default:
-                    self.displayAlert("Enter a valid email and password.")
+                    self.displayAlert("Your accound does not exist.")
                 }
             }
         })
