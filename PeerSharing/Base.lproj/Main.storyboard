@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -106,16 +106,17 @@
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z1J-EZ-guR">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="G49-cu-qi0"/>
+                                                        <constraint firstAttribute="width" constant="584" id="O4t-CH-vgl"/>
+                                                        <constraint firstAttribute="height" constant="30" id="U2N-25-MOv"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="z1J-EZ-guR" secondAttribute="trailing" id="JOL-3L-4s1"/>
-                                                <constraint firstItem="z1J-EZ-guR" firstAttribute="centerY" secondItem="Ely-vT-Mtl" secondAttribute="centerY" id="RHz-TG-Dtk"/>
-                                                <constraint firstAttribute="leadingMargin" secondItem="z1J-EZ-guR" secondAttribute="leading" id="z2r-c4-UEp"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="z1J-EZ-guR" secondAttribute="leading" id="3L8-zn-MjP"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="z1J-EZ-guR" secondAttribute="trailing" id="XSb-QS-uxV"/>
+                                                <constraint firstItem="z1J-EZ-guR" firstAttribute="centerY" secondItem="Ely-vT-Mtl" secondAttribute="centerY" id="fUI-Rn-ehC"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -126,12 +127,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kTD-ss-Fev">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kTD-ss-Fev">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="D85-o8-bAT"/>
+                                                        <constraint firstAttribute="width" constant="584" id="xYj-lI-tsG"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="kTD-ss-Fev" secondAttribute="trailing" id="7jH-Mp-1s4"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="kTD-ss-Fev" secondAttribute="bottom" constant="-2" id="fuj-Kd-Qdm"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="kTD-ss-Fev" secondAttribute="leading" id="tpT-Cu-Zu4"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -145,12 +155,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your first name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YEA-nd-suK">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your first name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YEA-nd-suK">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="F7A-Po-Ixr"/>
+                                                        <constraint firstAttribute="width" constant="584" id="Xsp-F2-B3f"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="YEA-nd-suK" secondAttribute="trailing" id="NyQ-So-Wz5"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="YEA-nd-suK" secondAttribute="leading" id="WL3-fR-8mo"/>
+                                                <constraint firstItem="YEA-nd-suK" firstAttribute="centerY" secondItem="qef-wn-Vw2" secondAttribute="centerY" id="bxF-HE-K4p"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="4ji-IV-eG3">
@@ -160,12 +179,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your last name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2dy-jY-KfJ">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your last name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2dy-jY-KfJ">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="68k-Sk-t3E"/>
+                                                        <constraint firstAttribute="width" constant="584" id="CKW-d8-tB0"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2dy-jY-KfJ" firstAttribute="centerY" secondItem="jGK-R3-3yz" secondAttribute="centerY" id="1Da-0A-pyZ"/>
+                                                <constraint firstItem="2dy-jY-KfJ" firstAttribute="leading" secondItem="jGK-R3-3yz" secondAttribute="leadingMargin" id="q78-9p-Y9V"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -179,12 +206,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="H8t-wV-T3Y">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="H8t-wV-T3Y">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="584" id="3wE-90-FxT"/>
+                                                        <constraint firstAttribute="height" constant="30" id="shl-yf-xZG"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="H8t-wV-T3Y" firstAttribute="leading" secondItem="nzY-vM-NZX" secondAttribute="leadingMargin" id="aaQ-BJ-YO2"/>
+                                                <constraint firstItem="H8t-wV-T3Y" firstAttribute="centerY" secondItem="nzY-vM-NZX" secondAttribute="centerY" id="h70-Ba-etE"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="YYL-hm-o5u">
@@ -194,12 +229,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Postal code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wmn-zo-XkJ">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Postal code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wmn-zo-XkJ">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="584" id="IIf-se-fF5"/>
+                                                        <constraint firstAttribute="height" constant="30" id="jZt-ka-1MS"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="wmn-zo-XkJ" firstAttribute="centerY" secondItem="1YD-Nb-wJU" secondAttribute="centerY" id="2oz-U1-ULG"/>
+                                                <constraint firstItem="wmn-zo-XkJ" firstAttribute="leading" secondItem="1YD-Nb-wJU" secondAttribute="leadingMargin" id="5dJ-nb-HcK"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="92J-nr-8EH">
@@ -209,12 +252,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ytk-gT-76M">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ytk-gT-76M">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="584" id="7Nr-2v-1Rw"/>
+                                                        <constraint firstAttribute="height" constant="30" id="J7L-FI-NHr"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ytk-gT-76M" firstAttribute="centerY" secondItem="o50-qP-EA9" secondAttribute="centerY" id="Max-Gd-Ebg"/>
+                                                <constraint firstItem="ytk-gT-76M" firstAttribute="leading" secondItem="o50-qP-EA9" secondAttribute="leadingMargin" id="VZs-Wp-QLc"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -299,7 +350,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6v3-Jd-QKq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3105" y="2806"/>
+            <point key="canvasLocation" x="2336" y="2781"/>
         </scene>
         <!--My Objects-->
         <scene sceneID="M5c-8m-qbb">
@@ -453,11 +504,11 @@
             </objects>
             <point key="canvasLocation" x="1524" y="490"/>
         </scene>
-        <!--Item-->
+        <!--To Borrow-->
         <scene sceneID="cMn-5a-BOk">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FnH-Ob-6OI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Kah-3N-TWB"/>
+                    <tabBarItem key="tabBarItem" title="To Borrow" id="Kah-3N-TWB"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="smX-0v-TEs">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -472,11 +523,11 @@
             </objects>
             <point key="canvasLocation" x="1524" y="1265"/>
         </scene>
-        <!--Item-->
+        <!--To Lend-->
         <scene sceneID="KEr-Mc-grT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S6M-w5-Io9" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="2Lp-h1-2hX"/>
+                    <tabBarItem key="tabBarItem" title="To Lend" id="2Lp-h1-2hX"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="G3G-oy-Dzm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

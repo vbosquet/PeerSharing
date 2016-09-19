@@ -46,7 +46,7 @@ class DashboardViewController: UIViewController {
                     for i in 0..<self.taggersList.count {
                         self.ref.child("addressLocation").child(self.taggersList[i]).observeEventType(.Value, withBlock: { snapshot in
                             
-                            if snapshot.value is NSNull {
+                            if snapshot.value!["latitude"] is NSNull && snapshot.value!["longitude"] is NSNull {
                                 print("No infos available")
                                 
                             } else {

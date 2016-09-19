@@ -30,6 +30,15 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
             displayAlert("Please fill in all required fields.")
         }
         
+        if addressTextField.text?.characters.count > 0 && postalCodeTextField.text?.characters.count > 0 && cityTextField.text?.characters.count > 0 {
+            let newLocation = self.addressTextField.text! + ", " + self.postalCodeTextField.text! + " " + self.cityTextField.text!
+            self.geoCoder.geocodeAddressString(newLocation, completionHandler: { (placemarks, error) in
+                if error != nil {
+                    self.displayAlert("Your address is incorrect.")
+                }
+            })
+        }
+        
         FIRAuth.auth()?.createUserWithEmail(emailTextField.text!, password: passwordTextField.text!, completion: { (user, error) in
             if error == nil {
                 FIRAuth.auth()?.signInWithEmail(self.emailTextField.text!, password: self.passwordTextField.text!, completion: { (user, error) in
@@ -104,6 +113,8 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
                 
                 let newLongitudeRef = self.ref.child("addressLocation").child(user.uid).child("longitude")
                 newLongitudeRef.setValue(longitude)
+            } else {
+                print("Address incorrect")
             }
         })
     }
