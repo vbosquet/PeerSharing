@@ -23,6 +23,7 @@
 		5CFFAFF61D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFAFF51D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift */; };
 		6ADD453FEBAF97D4B2998E03 /* Pods_PeerSharing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77500D1977B1CC512DDE1EB8 /* Pods_PeerSharing.framework */; };
 		8E29E2A81D849BFB00F6A449 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E29E2A71D849BFB00F6A449 /* MapKit.framework */; };
+		8E5E44DD1D919902003902F8 /* SearchNewObjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5E44DC1D919902003902F8 /* SearchNewObjectTableViewController.swift */; };
 		8EE319761D85EC8500BE5B35 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE319751D85EC8500BE5B35 /* Functions.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		5CFFAFF51D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosingObjectsToLendTableViewController.swift; sourceTree = "<group>"; };
 		77500D1977B1CC512DDE1EB8 /* Pods_PeerSharing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PeerSharing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E29E2A71D849BFB00F6A449 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		8E5E44DC1D919902003902F8 /* SearchNewObjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNewObjectTableViewController.swift; sourceTree = "<group>"; };
 		8EE319751D85EC8500BE5B35 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		ABB05B64249042E4CCEE1A07 /* Pods-PeerSharing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeerSharing.release.xcconfig"; path = "Pods/Target Support Files/Pods-PeerSharing/Pods-PeerSharing.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 				5CDD250C1D87EA200007AE8C /* ObjectToLend.swift */,
 				5C6707861D8BF1890056AB2B /* ChatViewController.swift */,
 				5C801F5E1D9136CB002B5CFD /* DataModel.xcdatamodeld */,
+				8E5E44DC1D919902003902F8 /* SearchNewObjectTableViewController.swift */,
 			);
 			path = PeerSharing;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				5CDD250D1D87EA200007AE8C /* ObjectToLend.swift in Sources */,
 				5C6707871D8BF1890056AB2B /* ChatViewController.swift in Sources */,
 				555DD1461D83FC6B00F829FB /* SignUpTableViewController.swift in Sources */,
+				8E5E44DD1D919902003902F8 /* SearchNewObjectTableViewController.swift in Sources */,
 				5CFFAFF61D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift in Sources */,
 				5511D71B1D847CFF00D313BF /* DashboardViewController.swift in Sources */,
 				5CFFAFF41D86E71F004D68AF /* MyObjectsToLendTableViewController.swift in Sources */,
