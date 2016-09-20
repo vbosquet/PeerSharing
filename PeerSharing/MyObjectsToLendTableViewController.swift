@@ -25,6 +25,7 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        //Retrieve data from DataStore.sqlite
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
@@ -45,8 +46,6 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         
         myObjectsToLend = objectNameList
         tableView.reloadData()
-        
-        //displayObjectsTolend()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -80,7 +79,6 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     }
     
     func selectObjectToLend(picker: ChoosingObjectsToLendTableViewController, didSelectObject objectName: [String]) {
-        //myObjectsToLend += objectName
         
         for index in 0..<objectName.count {
             let objectToSaveRef = ref.child("objectsToLend").child("\(objectName[index])")
@@ -147,8 +145,8 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         
     }
     
+    //Retrieve Data from Firebase Database
     func displayObjectsTolend() {
-        
         if let user = userAuthenticated {
             valueObserverHandle = ref.child("users").child(user.uid).child("tags").observeEventType(.Value, withBlock: { snapshot in
                 let tags = snapshot.value

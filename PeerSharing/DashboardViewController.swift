@@ -25,61 +25,7 @@ class DashboardViewController: UIViewController {
     var taggersList = [String]()
     
     @IBAction func pickPlace(sender: UIBarButtonItem) {
-        
-        let alert = UIAlertController(title: "What are you looking for?", message: "Enter an object", preferredStyle: .Alert)
-        
-        let sendAction = UIAlertAction(title: "Send", style: .Default) { (action: UIAlertAction) -> Void in
-            let textField = alert.textFields![0]
-            print(textField.text!)
-            
-            self.ref.child("objectsToLend").child("\(textField.text!)").child("taggers").observeEventType(.Value, withBlock: { snapshot in
-                let taggers = snapshot.value
-                if taggers is NSNull {
-                    print("Nobody has this object")
-                } else if taggers is NSDictionary {
-                    for key in taggers!.keyEnumerator() {
-                        if key as? String != self.user?.uid {
-                            self.taggersList.append("\(key)")
-                        }
-                    }
-                
-                    for i in 0..<self.taggersList.count {
-                        self.ref.child("addressLocation").child(self.taggersList[i]).observeEventType(.Value, withBlock: { snapshot in
-                            
-                            if snapshot.value!["latitude"] is NSNull && snapshot.value!["longitude"] is NSNull {
-                                print("No infos available")
-                                
-                            } else {
-                                
-                                let latitude = snapshot.value!["latitude"] as! Double
-                                let longitude = snapshot.value!["longitude"] as! Double
-                                let name = snapshot.value!["firstName"] as! String
-                                
-                                let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                                let marker = GMSMarker(position: position)
-                                
-                                self.mapView.camera = GMSCameraPosition(target: position, zoom: 15, bearing: 0, viewingAngle: 0)
-                                marker.title = "Contact \(name)"
-                                marker.icon = GMSMarker.markerImageWithColor(UIColor.greenColor())
-                                marker.map = self.mapView
-                                
-                            }
-                        })
-                    }
-                }
-            })
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction) -> Void in
-        }
-        
-        alert.addTextFieldWithConfigurationHandler { (textField: UITextField!) -> Void in
-        }
-        
-        alert.addAction(sendAction)
-        alert.addAction(cancelAction)
-        
-        presentViewController(alert, animated: true, completion: nil)
+        searchNewObject()
         
     }
     
@@ -111,10 +57,7 @@ class DashboardViewController: UIViewController {
                 controller.senderDisplayName = user.displayName
                 
             }
-            
-            
         }
-        
     }
     
     func updateMapView(location: CLLocation) {
@@ -160,5 +103,64 @@ extension DashboardViewController: CLLocationManagerDelegate {
 extension DashboardViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
         self.performSegueWithIdentifier("LoginToChat", sender: nil)
+    }
+}
+
+extension DashboardViewController {
+    
+    func searchNewObject() {
+        let alert = UIAlertController(title: "What are you looking for?", message: "Enter an object", preferredStyle: .Alert)
+        
+        let sendAction = UIAlertAction(title: "Send", style: .Default) { (action: UIAlertAction) -> Void in
+            let textField = alert.textFields![0]
+            
+            self.ref.child("objectsToLend").child("\(textField.text!)").child("taggers").observeEventType(.Value, withBlock: { snapshot in
+                let taggers = snapshot.value
+                if taggers is NSNull {
+                    print("Nobody has this object")
+                } else if taggers is NSDictionary {
+                    for key in taggers!.keyEnumerator() {
+                        if key as? String != self.user?.uid {
+                            self.taggersList.append("\(key)")
+                        }
+                    }
+                    
+                    for i in 0..<self.taggersList.count {
+                        self.ref.child("addressLocation").child(self.taggersList[i]).observeEventType(.Value, withBlock: { snapshot in
+                            
+                            if snapshot.value!["latitude"] is NSNull && snapshot.value!["longitude"] is NSNull {
+                                print("No infos available")
+                                
+                            } else {
+                                
+                                let latitude = snapshot.value!["latitude"] as! Double
+                                let longitude = snapshot.value!["longitude"] as! Double
+                                let name = snapshot.value!["firstName"] as! String
+                                
+                                let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                                let marker = GMSMarker(position: position)
+                                
+                                self.mapView.camera = GMSCameraPosition(target: position, zoom: 15, bearing: 0, viewingAngle: 0)
+                                marker.title = "Contact \(name)"
+                                marker.icon = GMSMarker.markerImageWithColor(UIColor.greenColor())
+                                marker.map = self.mapView
+                                
+                            }
+                        })
+                    }
+                }
+            })
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction) -> Void in
+        }
+        
+        alert.addTextFieldWithConfigurationHandler { (textField: UITextField!) -> Void in
+        }
+        
+        alert.addAction(sendAction)
+        alert.addAction(cancelAction)
+        
+        presentViewController(alert, animated: true, completion: nil)
     }
 }
