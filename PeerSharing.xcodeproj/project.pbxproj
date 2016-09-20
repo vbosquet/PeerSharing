@@ -17,6 +17,7 @@
 		555B12E91D8322BE00CB39F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 555B12E81D8322BE00CB39F3 /* GoogleService-Info.plist */; };
 		555DD1461D83FC6B00F829FB /* SignUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */; };
 		5C6707871D8BF1890056AB2B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6707861D8BF1890056AB2B /* ChatViewController.swift */; };
+		5C801F601D9136CB002B5CFD /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5C801F5E1D9136CB002B5CFD /* DataModel.xcdatamodeld */; };
 		5CDD250D1D87EA200007AE8C /* ObjectToLend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDD250C1D87EA200007AE8C /* ObjectToLend.swift */; };
 		5CFFAFF41D86E71F004D68AF /* MyObjectsToLendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFAFF31D86E71F004D68AF /* MyObjectsToLendTableViewController.swift */; };
 		5CFFAFF61D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFAFF51D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift */; };
@@ -40,6 +41,7 @@
 		555DD1431D83503400F829FB /* FirebaseAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuth.framework; path = Pods/FirebaseAuth/Frameworks/frameworks/FirebaseAuth.framework; sourceTree = "<group>"; };
 		555DD1451D83FC6B00F829FB /* SignUpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
 		5C6707861D8BF1890056AB2B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		5C801F5F1D9136CB002B5CFD /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		5CDD250C1D87EA200007AE8C /* ObjectToLend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectToLend.swift; sourceTree = "<group>"; };
 		5CFFAFEE1D86BA4F004D68AF /* PeerSharing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PeerSharing-Bridging-Header.h"; sourceTree = "<group>"; };
 		5CFFAFF31D86E71F004D68AF /* MyObjectsToLendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyObjectsToLendTableViewController.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				5CFFAFF51D86EEDF004D68AF /* ChoosingObjectsToLendTableViewController.swift */,
 				5CDD250C1D87EA200007AE8C /* ObjectToLend.swift */,
 				5C6707861D8BF1890056AB2B /* ChatViewController.swift */,
+				5C801F5E1D9136CB002B5CFD /* DataModel.xcdatamodeld */,
 			);
 			path = PeerSharing;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C801F601D9136CB002B5CFD /* DataModel.xcdatamodeld in Sources */,
 				5511D7191D847A6100D313BF /* User.swift in Sources */,
 				5CDD250D1D87EA200007AE8C /* ObjectToLend.swift in Sources */,
 				5C6707871D8BF1890056AB2B /* ChatViewController.swift in Sources */,
@@ -423,6 +427,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5C801F5E1D9136CB002B5CFD /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5C801F5F1D9136CB002B5CFD /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 5C801F5F1D9136CB002B5CFD /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 555B12CB1D83226C00CB39F3 /* Project object */;
 }

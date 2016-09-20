@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MBProgressHUD
+import CoreData
 
 protocol ChoosingObjectsToLendTableViewControllerDelegate: class {
     func selectObjectToLend(picker: ChoosingObjectsToLendTableViewController, didSelectObject objectName: [String])
@@ -17,7 +19,6 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
     var objectsToSelect = [ObjectToLend]()
     var objectsSelectedList = [String]()
     weak var delegate: ChoosingObjectsToLendTableViewControllerDelegate?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +41,6 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
         objectsToSelect.append(ObjectToLend(withName: "Tente"))
         objectsToSelect.append(ObjectToLend(withName: "Livres"))
         objectsToSelect.append(ObjectToLend(withName: "Scie sauteuse"))
-        
         
     }
     
@@ -83,9 +83,42 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
     
     @IBAction func saveDidTouch(sender: AnyObject) {
         if let delegate = delegate {
+            
+            //Save Data into Firebase Database
             delegate.selectObjectToLend(self, didSelectObject: objectsSelectedList)
+            
+            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            hud.mode = .CustomView
+            let image = UIImage(named: "Checkmark")?.imageWithRenderingMode(.AlwaysTemplate)
+            hud.customView = UIImageView(image: image)
+            hud.square = true
+            hud.label.text = "Save"
+            
+            afterDelay(0.6) {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
         }
         
+        //Save data into DataStore.sqlite
+        for i in 0..<objectsSelectedList.count {
+            saveObjectToLendToCoreData(objectsSelectedList[i])
+        }
+        
+    }
+    
+    func saveObjectToLendToCoreData(name: String) {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        let entity = NSEntityDescription.entityForName("ObjectToLend", inManagedObjectContext: managedContext)
+        let objectToLend = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        objectToLend.setValue(name, forKey: "name")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save \(error), \(error.userInfo)")
+            
+        }
     }
     
     

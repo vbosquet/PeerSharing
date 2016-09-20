@@ -8,11 +8,13 @@
 
 import UIKit
 import Firebase
+import CoreData
 
 class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjectsToLendTableViewControllerDelegate {
     
     let ref = FIRDatabase.database().reference()
     var myObjectsToLend = [String]()
+    var objectsToLendFromCoreData = [NSManagedObject]()
     var userAuthenticated = FIRAuth.auth()?.currentUser
     var valueObserverHandle:UInt?
     
@@ -23,7 +25,28 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        displayObjectsTolend()
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
+         var objectNameList = [String]()
+        
+        do {
+            let result = try managedContext.executeFetchRequest(fetchRequest)
+            
+            for i in 0..<result.count {
+                let objectName = result[i] as! NSManagedObject
+                objectsToLendFromCoreData.append(objectName)
+                objectNameList.append(objectName.valueForKey("name") as! String)
+            }
+            
+        } catch {
+            print("Could not fetch data because of: \(error)")
+        }
+        
+        myObjectsToLend = objectNameList
+        tableView.reloadData()
+        
+        //displayObjectsTolend()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -57,7 +80,7 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     }
     
     func selectObjectToLend(picker: ChoosingObjectsToLendTableViewController, didSelectObject objectName: [String]) {
-        myObjectsToLend += objectName
+        //myObjectsToLend += objectName
         
         for index in 0..<objectName.count {
             let objectToSaveRef = ref.child("objectsToLend").child("\(objectName[index])")
@@ -83,7 +106,7 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
             nameUserRef.setValue(user.displayName)
         }
         
-        dismissViewControllerAnimated(true, completion: nil)
+       
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -91,13 +114,14 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
             let navigationController = segue.destinationViewController as! UINavigationController
             let controller = navigationController.topViewController as! ChoosingObjectsToLendTableViewController
             controller.delegate = self
-            
         }
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         let objectToDelete = myObjectsToLend[indexPath.row]
+        let objectToRemoveFromCoreData = objectsToLendFromCoreData[indexPath.row]
         
+        //Delete data from Firebase Database
         if let user = userAuthenticated {
             let tagToDeleteRef = ref.child("users").child(user.uid).child("tags").child(objectToDelete)
             tagToDeleteRef.removeValue()
@@ -106,6 +130,18 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
             taggerToDeleteRef.removeValue()
         }
         
+        //Delete data from DataStore.sqlite
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        managedContext.deleteObject(objectToRemoveFromCoreData)
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not delete data because of: \(error)")
+        }
+        
+        //Update table view
         myObjectsToLend.removeAtIndex(indexPath.row)
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         

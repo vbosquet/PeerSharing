@@ -27,38 +27,43 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func saveProfilInfos(sender: AnyObject) {
         
         if emailTextField.text == "" || passwordTextField.text == "" || firstNameTextField.text  == "" || lastNameTextField.text == "" || addressTextField.text == "" || postalCodeTextField.text == "" || cityTextField.text == "" {
+            
             displayAlert("Please fill in all required fields.")
-        }
-        
-        if addressTextField.text?.characters.count > 0 && postalCodeTextField.text?.characters.count > 0 && cityTextField.text?.characters.count > 0 {
+            
+        } else {
+            
             let newLocation = self.addressTextField.text! + ", " + self.postalCodeTextField.text! + " " + self.cityTextField.text!
+            
             self.geoCoder.geocodeAddressString(newLocation, completionHandler: { (placemarks, error) in
                 if error != nil {
                     self.displayAlert("Your address is incorrect.")
+                    
+                } else {
+                    
+                    FIRAuth.auth()?.createUserWithEmail(self.emailTextField.text!, password: self.passwordTextField.text!, completion: { (user, error) in
+                        if error == nil {
+                            FIRAuth.auth()?.signInWithEmail(self.emailTextField.text!, password: self.passwordTextField.text!, completion: { (user, error) in
+                                
+                            })
+                            
+                        } else {
+                            
+                            switch error!.code {
+                            case FIRAuthErrorCode.ErrorCodeEmailAlreadyInUse.rawValue:
+                                self.displayAlert("This email already exists.")
+                            case FIRAuthErrorCode.ErrorCodeWeakPassword.rawValue:
+                                self.displayAlert("Your password is not valid.\nIt must contain at least 6 characters.")
+                            case FIRAuthErrorCode.ErrorCodeInvalidEmail.rawValue:
+                                self.displayAlert("Your email is not valid.")
+                            default:
+                                self.displayAlert("Enter a valid email and password.")
+                            }
+                        }
+                    })
+                    
                 }
             })
         }
-        
-        FIRAuth.auth()?.createUserWithEmail(emailTextField.text!, password: passwordTextField.text!, completion: { (user, error) in
-            if error == nil {
-                FIRAuth.auth()?.signInWithEmail(self.emailTextField.text!, password: self.passwordTextField.text!, completion: { (user, error) in
-                    
-                })
-            } else {
-                
-                switch error!.code {
-                case FIRAuthErrorCode.ErrorCodeEmailAlreadyInUse.rawValue:
-                    self.displayAlert("This email already exists.")
-                case FIRAuthErrorCode.ErrorCodeWeakPassword.rawValue:
-                    self.displayAlert("Your password is not valid.\nIt must contain at least 6 characters.")
-                case FIRAuthErrorCode.ErrorCodeInvalidEmail.rawValue:
-                    self.displayAlert("Your email is not valid.")
-                default:
-                    self.displayAlert("Enter a valid email and password.")
-                }
-            }
-        })
-        
     }
     
     func displayAlert(message: String) {

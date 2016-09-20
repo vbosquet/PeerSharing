@@ -36,19 +36,22 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginDidTouch(sender: AnyObject) {
-        FIRAuth.auth()?.signInWithEmail(emailAddressTextField.text!, password: passwordTextField.text!, completion: { (user, error) in
-            if error != nil {
-                switch error!.code {
-                case FIRAuthErrorCode.ErrorCodeWrongPassword.rawValue:
-                    self.displayAlert("Your password is incorrect.")
-                case FIRAuthErrorCode.ErrorCodeUserDisabled.rawValue:
-                    self.displayAlert("Your account is disabled.")
-                default:
-                    self.displayAlert("Your accound does not exist.")
+        if emailAddressTextField.text == "" || passwordTextField.text == "" {
+            displayAlert("Please, enter your email and password.")
+        } else {
+            FIRAuth.auth()?.signInWithEmail(emailAddressTextField.text!, password: passwordTextField.text!, completion: { (user, error) in
+                if error != nil {
+                    switch error!.code {
+                    case FIRAuthErrorCode.ErrorCodeWrongPassword.rawValue:
+                        self.displayAlert("Your password is incorrect.")
+                    case FIRAuthErrorCode.ErrorCodeUserDisabled.rawValue:
+                        self.displayAlert("Your account is disabled.")
+                    default:
+                        self.displayAlert("Your account does not exist.")
+                    }
                 }
-            }
-        })
-        
+            })
+        }
     }
     
     func displayAlert(message: String) {
