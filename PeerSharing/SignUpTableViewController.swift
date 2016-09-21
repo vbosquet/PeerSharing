@@ -94,7 +94,11 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
                 })
                 
                 
-                let newUser = User(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, address: self.addressTextField.text!, postalCode: self.postalCodeTextField.text!, city: self.cityTextField.text!)
+                let address = self.addressTextField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                let postaclCode = self.postalCodeTextField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                let city = self.cityTextField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                
+                let newUser = User(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, address: address, postalCode: postaclCode, city: city)
                 let newUserRef = self.ref.child("users").child(user.uid)
                 newUserRef.setValue(newUser.toAnyObject())
                 

@@ -17,6 +17,7 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     var objectsToLendFromCoreData = [NSManagedObject]()
     var userAuthenticated = FIRAuth.auth()?.currentUser
     var valueObserverHandle:UInt?
+    var userFirstName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +30,14 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
-         var objectNameList = [String]()
+        
+        if let user = userAuthenticated {
+            self.userFirstName = user.displayName!
+        }
+        
+        fetchRequest.predicate = NSPredicate(format: "userFirstName == %@", userFirstName)
+        
+        var objectNameList = [String]()
         
         do {
             let result = try managedContext.executeFetchRequest(fetchRequest)
@@ -43,6 +51,9 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         } catch {
             print("Could not fetch data because of: \(error)")
         }
+        
+        //let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        //print(paths[0])
         
         myObjectsToLend = objectNameList
         tableView.reloadData()

@@ -102,19 +102,24 @@ class SearchNewObjectTableViewController: UITableViewController {
                         }
                     }
                     
-                    if let delegate = self.delegate {
-                        delegate.searchNewObjectToLend(self, didSelectTaggersNames: self.taggersList)
-                        
-                        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-                        hud.mode = .CustomView
-                        let image = UIImage(named: "Checkmark")?.imageWithRenderingMode(.AlwaysTemplate)
-                        hud.customView = UIImageView(image: image)
-                        hud.square = true
-                        hud.label.text = "Done"
-                        
-                        afterDelay(0.6) {
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                    if self.taggersList.count > 0 {
+                        if let delegate = self.delegate {
+                            delegate.searchNewObjectToLend(self, didSelectTaggersNames: self.taggersList)
+                            
+                            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                            hud.mode = .CustomView
+                            let image = UIImage(named: "Checkmark")?.imageWithRenderingMode(.AlwaysTemplate)
+                            hud.customView = UIImageView(image: image)
+                            hud.square = true
+                            hud.label.text = "Done"
+                            
+                            afterDelay(0.6) {
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                            }
                         }
+                        
+                    } else {
+                        self.displayAlert("Nobody has this object", title: "No Result Found")
                     }
                 }
             })

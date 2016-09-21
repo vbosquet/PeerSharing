@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 import CoreLocation
-import GooglePlacePicker
+import Alamofire
 
 class DashboardViewController: UIViewController {
     
@@ -17,10 +17,10 @@ class DashboardViewController: UIViewController {
     
     let ref = FIRDatabase.database().reference()
     let user = FIRAuth.auth()?.currentUser
-    
+    let directionsApiKey = "AIzaSyCtYpv-xdrnmDb4fCtlCP0mBbAgH3bPEws"
     let locationManager = CLLocationManager()
     var location: CLLocation?
-    var placemark: CLPlacemark?
+    var origin = ""
     
     @IBAction func pickPlace(sender: UIBarButtonItem) {
         
@@ -42,6 +42,20 @@ class DashboardViewController: UIViewController {
         locationManager.startUpdatingLocation()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let user = user {
+            ref.child("users").child(user.uid).observeEventType(.Value, withBlock: { (snapshot) in
+                let address = snapshot.value!["address"] as! String
+                let postalCode = snapshot.value!["postalCode"] as! String
+                let city = snapshot.value!["city"] as! String
+                
+                self.origin = address + ", " + postalCode + ", " + city
+            })
+        }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SignOutSegue" {
             try! FIRAuth.auth()?.signOut()
@@ -61,26 +75,13 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    func updateMapView(location: CLLocation) {
+    func updateMapView(location: CLLocation, title: String, snippet: String) {
         mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
         let position = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let marker = GMSMarker(position: position)
-        marker.title = "Your current position"
+        marker.title = title
+        marker.snippet = snippet
         marker.map = mapView
-    }
-    
-    func stringFromPlacemark(placemark: CLPlacemark) -> String {
-        var line1 = ""
-        
-        if let s = placemark.subThoroughfare {
-            line1 += s + " "
-        }
-        
-        if let s = placemark.thoroughfare {
-            line1 += s
-        }
-        
-        return line1
     }
 }
 
@@ -95,7 +96,7 @@ extension DashboardViewController: CLLocationManagerDelegate {
         location = newLocation
         
         if let location = location {
-            self.updateMapView(location)
+            self.updateMapView(location, title: "Your current position", snippet: "")
             self.locationManager.stopUpdatingLocation()
         }
     }
@@ -119,6 +120,8 @@ extension DashboardViewController {
     
     func searchNewObject(taggersList: [String]) {
         
+        self.mapView.clear()
+        
         for i in 0..<taggersList.count {
             self.ref.child("addressLocation").child(taggersList[i]).observeEventType(.Value, withBlock: { snapshot in
                 
@@ -131,16 +134,55 @@ extension DashboardViewController {
                     let longitude = snapshot.value!["longitude"] as! Double
                     let name = snapshot.value!["firstName"] as! String
                     
-                    let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                    let marker = GMSMarker(position: position)
+                    let location = CLLocation(latitude: latitude, longitude: longitude)
+                    let title = "Contact \(name)"
                     
-                    self.mapView.camera = GMSCameraPosition(target: position, zoom: 15, bearing: 0, viewingAngle: 0)
-                    marker.title = "Contact \(name)"
-                    marker.icon = GMSMarker.markerImageWithColor(UIColor.greenColor())
-                    marker.map = self.mapView
+                    //self.updateMapView(location, title: "Contact \(name)")
+                    self.displayTravelTime(taggersList, location: location, title: title)
                     
                 }
             })
         }
+    }
+    
+    func displayTravelTime(taggersList: [String], location: CLLocation, title: String) {
+        for i in 0..<taggersList.count {
+            self.ref.child("users").child(taggersList[i]).observeEventType(.Value, withBlock: { (snapshot) in
+                let address = snapshot.value!["address"] as! String
+                let postalCode = snapshot.value!["postalCode"] as! String
+                let city = snapshot.value!["city"] as! String
+                
+                let destination = address + ", " + postalCode + ", " + city
+                
+                var urlString = String(format: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.origin)&destination=\(destination)&key=\(self.directionsApiKey)")
+                urlString = urlString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+                self.httpRequest(urlString, location: location, title: title)
+            })
+        }
+    }
+    
+    func httpRequest(url: String, location: CLLocation, title: String) {
+        Alamofire.request(.GET, url, parameters: nil).responseJSON(completionHandler: { (response) in
+            if let JSON = response.result.value {
+                let data = JSON as! NSDictionary
+                let routes = data["routes"]
+                
+                if routes != nil {
+                    let legs = routes![0]["legs"]
+                    
+                    if legs != nil {
+                        let duration = legs!![0]["duration"]
+                        
+                        if duration != nil {
+                            let durationText = duration!!["text"]
+                            let durationString = "\(durationText as! String) from your home"
+                            
+                            self.updateMapView(location, title: title, snippet: durationString)
+                        }
+                    }
+                    
+                }
+            }
+        })
     }
 }
