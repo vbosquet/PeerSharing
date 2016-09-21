@@ -19,8 +19,10 @@ class DashboardViewController: UIViewController {
     let user = FIRAuth.auth()?.currentUser
     let directionsApiKey = "AIzaSyCtYpv-xdrnmDb4fCtlCP0mBbAgH3bPEws"
     let locationManager = CLLocationManager()
+    let greenColor = UIColor.greenColor()
+    let redColor = UIColor.redColor()
+    
     var location: CLLocation?
-    var origin = ""
     
     @IBAction func pickPlace(sender: UIBarButtonItem) {
         
@@ -34,26 +36,16 @@ class DashboardViewController: UIViewController {
         if authStatus == .NotDetermined {
             locationManager.requestWhenInUseAuthorization()
             return
+            
+        } else if authStatus == .Denied || authStatus == .Restricted {
+            showLocationServicesDeniedAlert()
+            return
         }
         
         mapView.delegate = self
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if let user = user {
-            ref.child("users").child(user.uid).observeEventType(.Value, withBlock: { (snapshot) in
-                let address = snapshot.value!["address"] as! String
-                let postalCode = snapshot.value!["postalCode"] as! String
-                let city = snapshot.value!["city"] as! String
-                
-                self.origin = address + ", " + postalCode + ", " + city
-            })
-        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -75,13 +67,21 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    func updateMapView(location: CLLocation, title: String, snippet: String) {
+    func updateMapView(location: CLLocation, title: String, snippet: String, color: UIColor) {
         mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
         let position = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let marker = GMSMarker(position: position)
         marker.title = title
         marker.snippet = snippet
+        marker.icon = GMSMarker.markerImageWithColor(color)
         marker.map = mapView
+    }
+    
+    func showLocationServicesDeniedAlert() {
+        let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app in Settings.", preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(okAction)
     }
 }
 
@@ -96,8 +96,8 @@ extension DashboardViewController: CLLocationManagerDelegate {
         location = newLocation
         
         if let location = location {
-            self.updateMapView(location, title: "Your current position", snippet: "")
-            self.locationManager.stopUpdatingLocation()
+            self.updateMapView(location, title: "Your current position", snippet: "", color: redColor)
+            //self.locationManager.stopUpdatingLocation()
         }
     }
 }
@@ -134,53 +134,44 @@ extension DashboardViewController {
                     let longitude = snapshot.value!["longitude"] as! Double
                     let name = snapshot.value!["firstName"] as! String
                     
-                    let location = CLLocation(latitude: latitude, longitude: longitude)
-                    let title = "Contact \(name)"
+                    let newLocation = CLLocation(latitude: latitude, longitude: longitude)
                     
-                    //self.updateMapView(location, title: "Contact \(name)")
-                    self.displayTravelTime(taggersList, location: location, title: title)
-                    
+                    if let myLocation = self.location {
+                        var urlString = String(format: "https://maps.googleapis.com/maps/api/directions/json?origin=\(myLocation.coordinate.latitude),\(myLocation.coordinate.longitude)&destination=\(latitude),\(longitude)&mode=walking&key=\(self.directionsApiKey)")
+                        urlString = urlString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+                        self.httpRequest(urlString, location: newLocation, title: "Contact \(name)")
+                    }
                 }
-            })
-        }
-    }
-    
-    func displayTravelTime(taggersList: [String], location: CLLocation, title: String) {
-        for i in 0..<taggersList.count {
-            self.ref.child("users").child(taggersList[i]).observeEventType(.Value, withBlock: { (snapshot) in
-                let address = snapshot.value!["address"] as! String
-                let postalCode = snapshot.value!["postalCode"] as! String
-                let city = snapshot.value!["city"] as! String
-                
-                let destination = address + ", " + postalCode + ", " + city
-                
-                var urlString = String(format: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.origin)&destination=\(destination)&key=\(self.directionsApiKey)")
-                urlString = urlString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-                self.httpRequest(urlString, location: location, title: title)
             })
         }
     }
     
     func httpRequest(url: String, location: CLLocation, title: String) {
         Alamofire.request(.GET, url, parameters: nil).responseJSON(completionHandler: { (response) in
+            
+            if response.result.isFailure == true {
+                return
+            }
+            
             if let JSON = response.result.value {
+                
                 let data = JSON as! NSDictionary
                 let routes = data["routes"]
                 
-                if routes != nil {
-                    let legs = routes![0]["legs"]
+                if let routes = routes where routes.count > 0 {
+                    let legs = routes[0]["legs"]
                     
-                    if legs != nil {
-                        let duration = legs!![0]["duration"]
+                    if let legs = legs where legs!.count > 0 {
+                        let duration = legs![0]["duration"]
                         
-                        if duration != nil {
-                            let durationText = duration!!["text"]
-                            let durationString = "\(durationText as! String) from your home"
+                        if let duration = duration {
+                            let durationText = duration!["text"]
+                            let durationString = "\(durationText as! String) from your current position"
                             
-                            self.updateMapView(location, title: title, snippet: durationString)
+                            self.updateMapView(self.location!, title: "Your current position", snippet: "", color: self.redColor)
+                            self.updateMapView(location, title: title, snippet: durationString, color: self.greenColor)
                         }
                     }
-                    
                 }
             }
         })
