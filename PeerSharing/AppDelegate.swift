@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let googleMapsApiKey = "AIzaSyDkIlmHd1weC9BG_sUgV6Fjby_VwWZkFLQ"
     
     lazy var managedObjectContext: NSManagedObjectContext = {
+        //let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        //print(paths[0])
         
         guard let modelURL = NSBundle.mainBundle().URLForResource("DataModel", withExtension: "momd") else {
             fatalError("Could not find data model in app bundle")

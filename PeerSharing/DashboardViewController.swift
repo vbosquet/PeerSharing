@@ -19,10 +19,6 @@ class DashboardViewController: UIViewController {
     let user = FIRAuth.auth()?.currentUser
     let directionsApiKey = "AIzaSyCtYpv-xdrnmDb4fCtlCP0mBbAgH3bPEws"
     let locationManager = CLLocationManager()
-    let greenColor = UIColor.greenColor()
-    let redColor = UIColor.redColor()
-    
-    var location: CLLocation?
     
     @IBAction func pickPlace(sender: UIBarButtonItem) {
         
@@ -43,11 +39,10 @@ class DashboardViewController: UIViewController {
         }
         
         mapView.delegate = self
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.startUpdatingLocation()
+        mapView.myLocationEnabled = true
+        mapView.settings.myLocationButton = true
+        
     }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SignOutSegue" {
             try! FIRAuth.auth()?.signOut()
@@ -67,13 +62,13 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    func updateMapView(location: CLLocation, title: String, snippet: String, color: UIColor) {
-        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+    func addMarker(location: CLLocation, title: String, snippet: String) {
         let position = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let marker = GMSMarker(position: position)
+        
         marker.title = title
         marker.snippet = snippet
-        marker.icon = GMSMarker.markerImageWithColor(color)
+        marker.icon = GMSMarker.markerImageWithColor(UIColor.greenColor())
         marker.map = mapView
     }
     
@@ -82,23 +77,6 @@ class DashboardViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
         presentViewController(alert, animated: true, completion: nil)
         alert.addAction(okAction)
-    }
-}
-
-extension DashboardViewController: CLLocationManagerDelegate {
-    
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("didFailWithError \(error)")
-    }
-    
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let newLocation = locations.last!
-        location = newLocation
-        
-        if let location = location {
-            self.updateMapView(location, title: "Your current position", snippet: "", color: redColor)
-            //self.locationManager.stopUpdatingLocation()
-        }
     }
 }
 
@@ -113,7 +91,6 @@ extension DashboardViewController: SearchNewObjectTableViewControllerDelegate {
     func searchNewObjectToLend(controller: SearchNewObjectTableViewController, didSelectTaggersNames taggersList: [String]) {
         searchNewObject(taggersList)
     }
-    
 }
 
 extension DashboardViewController {
@@ -134,11 +111,10 @@ extension DashboardViewController {
                     let longitude = snapshot.value!["longitude"] as! Double
                     let name = snapshot.value!["firstName"] as! String
                     
-                    let newLocation = CLLocation(latitude: latitude, longitude: longitude)
-                    
-                    if let myLocation = self.location {
+                    if let myLocation = self.mapView.myLocation {
                         var urlString = String(format: "https://maps.googleapis.com/maps/api/directions/json?origin=\(myLocation.coordinate.latitude),\(myLocation.coordinate.longitude)&destination=\(latitude),\(longitude)&mode=walking&key=\(self.directionsApiKey)")
                         urlString = urlString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+                        let newLocation = CLLocation(latitude: latitude, longitude: longitude)
                         self.httpRequest(urlString, location: newLocation, title: "Contact \(name)")
                     }
                 }
@@ -168,8 +144,7 @@ extension DashboardViewController {
                             let durationText = duration!["text"]
                             let durationString = "\(durationText as! String) from your current position"
                             
-                            self.updateMapView(self.location!, title: "Your current position", snippet: "", color: self.redColor)
-                            self.updateMapView(location, title: title, snippet: durationString, color: self.greenColor)
+                            self.addMarker(location, title: title, snippet: durationString)
                         }
                     }
                 }
