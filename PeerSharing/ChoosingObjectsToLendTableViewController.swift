@@ -69,9 +69,19 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) {
             let selectedObject = objectsToSelect[indexPath.row]
+            
             selectedObject.toggleChecked()
             configureChekmarkForCell(cell, indexPath: indexPath)
-            objectsSelectedList.append(selectedObject.name)
+            
+            print(selectedObject.checked)
+            
+            if selectedObject.checked {
+                objectsSelectedList.append(selectedObject.name)
+                print("append")
+            } else {
+                objectsSelectedList.removeLast()
+                print("delete")
+            }
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -86,7 +96,6 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
     @IBAction func saveDidTouch(sender: AnyObject) {
         if let delegate = delegate {
             
-            //Save Data into Firebase Database
             delegate.selectObjectToLend(self, didSelectObject: objectsSelectedList)
             
             let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
@@ -101,33 +110,7 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
             }
         }
         
-        //Save data into DataStore.sqlite
-        for i in 0..<objectsSelectedList.count {
-            saveObjectToLendToCoreData(objectsSelectedList[i])
-        }
-        
     }
-    
-    func saveObjectToLendToCoreData(name: String) {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        let entity = NSEntityDescription.entityForName("ObjectToLend", inManagedObjectContext: managedContext)
-        let objectToLend = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
-        objectToLend.setValue(name, forKey: "name")
-        
-        if let user = user {
-            let userFirstName = user.displayName
-            objectToLend.setValue(userFirstName, forKey: "userFirstName")
-        }
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save \(error), \(error.userInfo)")
-            
-        }
-    }
-    
     
     func configureChekmarkForCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         let selectedObject = objectsToSelect[indexPath.row]

@@ -13,6 +13,7 @@ import CoreData
 class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjectsToLendTableViewControllerDelegate {
     
     let ref = FIRDatabase.database().reference()
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var myObjectsToLend = [String]()
     var objectsToLendFromCoreData = [NSManagedObject]()
     var userAuthenticated = FIRAuth.auth()?.currentUser
@@ -27,7 +28,6 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         super.viewWillAppear(animated)
         
         //Retrieve data from DataStore.sqlite
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
         
@@ -89,7 +89,48 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     @IBAction func addingObjectDidTouch(sender: AnyObject) {
     }
     
+    func saveObjectToLendToCoreData(name: String) {
+        let managedContext = appDelegate.managedObjectContext
+        let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
+        
+        if let user = userAuthenticated {
+            self.userFirstName = user.displayName!
+        }
+        
+        fetchRequest.predicate = NSPredicate(format: "userFirstName == %@ AND name == %@", userFirstName, name)
+        
+        do {
+            let result = try managedContext.executeFetchRequest(fetchRequest)
+            if result.count == 0 {
+                let entity = NSEntityDescription.entityForName("ObjectToLend", inManagedObjectContext: managedContext)
+                let objectToLend = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+                objectToLend.setValue(name, forKey: "name")
+                
+                if let user = userAuthenticated {
+                    let userFirstName = user.displayName
+                    objectToLend.setValue(userFirstName, forKey: "userFirstName")
+                }
+                
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save \(error), \(error.userInfo)")
+                    
+                }
+                
+            }
+            
+        } catch {
+            print("Could not fetch data because of: \(error)")
+        }
+    }
+    
     func selectObjectToLend(picker: ChoosingObjectsToLendTableViewController, didSelectObject objectName: [String]) {
+        
+        //Save data into DataStore.sqlite
+        for i in 0..<objectName.count {
+            saveObjectToLendToCoreData(objectName[i])
+        }
         
         for index in 0..<objectName.count {
             let objectToSaveRef = ref.child("objectsToLend").child("\(objectName[index])")
@@ -128,7 +169,6 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         let objectToDelete = myObjectsToLend[indexPath.row]
-        let objectToRemoveFromCoreData = objectsToLendFromCoreData[indexPath.row]
         
         //Delete data from Firebase Database
         if let user = userAuthenticated {
@@ -140,14 +180,27 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         }
         
         //Delete data from DataStore.sqlite
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
-        managedContext.deleteObject(objectToRemoveFromCoreData)
+        let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
+        
+        if let user = userAuthenticated {
+            self.userFirstName = user.displayName!
+        }
+        
+        fetchRequest.predicate = NSPredicate(format: "userFirstName == %@ AND name == %@", userFirstName, objectToDelete)
         
         do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not delete data because of: \(error)")
+            let result = try managedContext.executeFetchRequest(fetchRequest)
+            managedContext.deleteObject(result[0] as! NSManagedObject)
+            
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not delete data because of: \(error)")
+            }
+            
+        } catch {
+            print("Could not fetch data because of: \(error)")
         }
         
         //Update table view
