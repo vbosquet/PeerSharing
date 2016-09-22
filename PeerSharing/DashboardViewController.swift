@@ -41,8 +41,8 @@ class DashboardViewController: UIViewController {
         mapView.delegate = self
         mapView.myLocationEnabled = true
         mapView.settings.myLocationButton = true
-        
     }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SignOutSegue" {
             try! FIRAuth.auth()?.signOut()
