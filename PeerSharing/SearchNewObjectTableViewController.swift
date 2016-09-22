@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import MBProgressHUD
+import CoreData
 
 protocol SearchNewObjectTableViewControllerDelegate: class {
     func searchNewObjectToLend(controller: SearchNewObjectTableViewController, didSelectTaggersNames taggersList: [String])
@@ -46,6 +47,30 @@ class SearchNewObjectTableViewController: UITableViewController {
         objectsToSelect.append(ObjectToLend(withName: "Tente"))
         objectsToSelect.append(ObjectToLend(withName: "Livres"))
         objectsToSelect.append(ObjectToLend(withName: "Scie sauteuse"))
+        
+        var objectNameList = [String]()
+        
+        for i in 0..<objectsToSelect.count {
+            let objectName = objectsToSelect[i].name
+            objectNameList.append(objectName)
+        }
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
+        
+        for i in 0..<objectNameList.count {
+            fetchRequest.predicate = NSPredicate(format: "name == %@ AND userFirstName != %@", objectNameList[i], (user?.displayName)!)
+            
+            do {
+                let result = try managedContext.executeFetchRequest(fetchRequest)
+                objectsToSelect[i].numberOfTaggers = result.count
+                
+            } catch {
+                print("Could not fetch data because of: \(error)")
+            }
+            
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -61,10 +86,26 @@ class SearchNewObjectTableViewController: UITableViewController {
         return objectsToSelect.count
     }
     
+    func cellForTableView(tableView: UITableView) -> UITableViewCell {
+        let cellIndentifier = "Cell"
+        if let cell = tableView.dequeueReusableCellWithIdentifier(cellIndentifier) {
+            return cell
+        } else {
+            return UITableViewCell(style: .Subtitle, reuseIdentifier: cellIndentifier)
+        }
+    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ObjectToSelect", forIndexPath: indexPath)
+        let cell = cellForTableView(tableView)
         let objectName = objectsToSelect[indexPath.row]
+        let count = objectsToSelect[indexPath.row].numberOfTaggers
         cell.textLabel!.text = objectName.name
+        
+        if count == 0 {
+            cell.detailTextLabel?.text = "(0 tags)"
+        } else {
+            cell.detailTextLabel?.text = "\(count) tags"
+        }
         
         if indexPath == selectedIndexPath {
             cell.accessoryType = .Checkmark
@@ -93,7 +134,7 @@ class SearchNewObjectTableViewController: UITableViewController {
             self.ref.child("objectsToLend").child("\(selectedObjectName)").child("taggers").observeEventType(.Value, withBlock: { snapshot in
                 let taggers = snapshot.value
                 if taggers is NSNull {
-                    self.displayAlert("Nobody has this object.", title: "No Result Found")
+                   self.displayAlert("Nobody has this object", title: "No Result Found")
                     
                 } else if taggers is NSDictionary {
                     for key in taggers!.keyEnumerator() {

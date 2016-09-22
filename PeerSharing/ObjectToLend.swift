@@ -11,6 +11,7 @@ import Foundation
 class ObjectToLend {
     var name = ""
     var checked = false
+    var numberOfTaggers = 0
     
     init(withName: String) {
         name = withName
