@@ -16,11 +16,12 @@ protocol ChoosingObjectsToLendTableViewControllerDelegate: class {
 }
 
 class ChoosingObjectsToLendTableViewController: UITableViewController {
-    
+
     var objectsToSelect = [ObjectToLend]()
     var objectsSelectedList = [String]()
     weak var delegate: ChoosingObjectsToLendTableViewControllerDelegate?
     var user = FIRAuth.auth()?.currentUser
+    var userFirstName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +44,7 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
         objectsToSelect.append(ObjectToLend(withName: "Tente"))
         objectsToSelect.append(ObjectToLend(withName: "Livres"))
         objectsToSelect.append(ObjectToLend(withName: "Scie sauteuse"))
-        
+
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -71,7 +72,12 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
             let selectedObject = objectsToSelect[indexPath.row]
             selectedObject.toggleChecked()
             configureChekmarkForCell(cell, indexPath: indexPath)
-            objectsSelectedList.append(selectedObject.name)
+            
+            if selectedObject.checked {
+                objectsSelectedList.append(selectedObject.name)
+            } else {
+                objectsSelectedList.removeLast()
+            }
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -100,34 +106,7 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
-        
-        //Save data into DataStore.sqlite
-        for i in 0..<objectsSelectedList.count {
-            saveObjectToLendToCoreData(objectsSelectedList[i])
-        }
-        
     }
-    
-    func saveObjectToLendToCoreData(name: String) {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        let entity = NSEntityDescription.entityForName("ObjectToLend", inManagedObjectContext: managedContext)
-        let objectToLend = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
-        objectToLend.setValue(name, forKey: "name")
-        
-        if let user = user {
-            let userFirstName = user.displayName
-            objectToLend.setValue(userFirstName, forKey: "userFirstName")
-        }
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save \(error), \(error.userInfo)")
-            
-        }
-    }
-    
     
     func configureChekmarkForCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         let selectedObject = objectsToSelect[indexPath.row]
