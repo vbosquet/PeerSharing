@@ -18,10 +18,14 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
     var objectsToLendFromCoreData = [NSManagedObject]()
     var userAuthenticated = FIRAuth.auth()?.currentUser
     var valueObserverHandle:UInt?
-    var userFirstName = ""
+    var userId = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let user = userAuthenticated {
+            self.userId = user.uid
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -31,11 +35,7 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
         
-        if let user = userAuthenticated {
-            self.userFirstName = user.displayName!
-        }
-        
-        fetchRequest.predicate = NSPredicate(format: "userFirstName == %@", userFirstName)
+        fetchRequest.predicate = NSPredicate(format: "userId == %@", userId)
         
         var objectNameList = [String]()
         
@@ -51,9 +51,6 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         } catch {
             print("Could not fetch data because of: \(error)")
         }
-        
-        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        print(paths[0])
         
         myObjectsToLend = objectNameList
         tableView.reloadData()
@@ -93,11 +90,7 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
         
-        if let user = userAuthenticated {
-            self.userFirstName = user.displayName!
-        }
-        
-        fetchRequest.predicate = NSPredicate(format: "userFirstName == %@ AND name == %@", userFirstName, name)
+        fetchRequest.predicate = NSPredicate(format: "userId == %@ AND name == %@", userId, name)
         
         do {
             let result = try managedContext.executeFetchRequest(fetchRequest)
@@ -105,11 +98,7 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
                 let entity = NSEntityDescription.entityForName("ObjectToLend", inManagedObjectContext: managedContext)
                 let objectToLend = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
                 objectToLend.setValue(name, forKey: "name")
-                
-                if let user = userAuthenticated {
-                    let userFirstName = user.displayName
-                    objectToLend.setValue(userFirstName, forKey: "userFirstName")
-                }
+                objectToLend.setValue(userId, forKey: "userId")
                 
                 do {
                     try managedContext.save()
@@ -181,11 +170,7 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
         
-        if let user = userAuthenticated {
-            self.userFirstName = user.displayName!
-        }
-        
-        fetchRequest.predicate = NSPredicate(format: "userFirstName == %@ AND name == %@", userFirstName, objectToDelete)
+        fetchRequest.predicate = NSPredicate(format: "userId == %@ AND name == %@", userId, objectToDelete)
         
         do {
             let result = try managedContext.executeFetchRequest(fetchRequest)

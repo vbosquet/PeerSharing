@@ -9,7 +9,6 @@
 import UIKit
 import MBProgressHUD
 import CoreData
-import Firebase
 
 protocol ChoosingObjectsToLendTableViewControllerDelegate: class {
     func selectObjectToLend(picker: ChoosingObjectsToLendTableViewController, didSelectObject objectName: [String])
@@ -20,8 +19,6 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
     var objectsToSelect = [ObjectToLend]()
     var objectsSelectedList = [String]()
     weak var delegate: ChoosingObjectsToLendTableViewControllerDelegate?
-    var user = FIRAuth.auth()?.currentUser
-    var userFirstName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()

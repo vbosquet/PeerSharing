@@ -60,7 +60,7 @@ class SearchNewObjectTableViewController: UITableViewController {
         let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
         
         for i in 0..<objectNameList.count {
-            fetchRequest.predicate = NSPredicate(format: "name == %@ AND userFirstName != %@", objectNameList[i], (user?.displayName)!)
+            fetchRequest.predicate = NSPredicate(format: "name == %@ AND userId != %@", objectNameList[i], (user?.uid)!)
             
             do {
                 let result = try managedContext.executeFetchRequest(fetchRequest)
