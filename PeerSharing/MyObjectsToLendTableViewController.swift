@@ -28,7 +28,6 @@ class MyObjectsToLendTableViewController: UITableViewController, ChoosingObjects
         super.viewWillAppear(animated)
         
         //Retrieve data from DataStore.sqlite
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "ObjectToLend")
         

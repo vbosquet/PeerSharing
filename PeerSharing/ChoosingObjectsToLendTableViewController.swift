@@ -70,6 +70,7 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) {
             let selectedObject = objectsToSelect[indexPath.row]
+            
             selectedObject.toggleChecked()
             configureChekmarkForCell(cell, indexPath: indexPath)
             
@@ -92,7 +93,6 @@ class ChoosingObjectsToLendTableViewController: UITableViewController {
     @IBAction func saveDidTouch(sender: AnyObject) {
         if let delegate = delegate {
             
-            //Save Data into Firebase Database
             delegate.selectObjectToLend(self, didSelectObject: objectsSelectedList)
             
             let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
